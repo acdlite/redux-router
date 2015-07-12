@@ -111,19 +111,19 @@ const LoginPage = createConnector(props$, state$, dispatch$, () => {
     .distinctUntilChanged(state => state.loggedIn)
     .filter(state => state.loggedIn);
 
-  // Use query parameter as redirect url
-  const redirect$ = state$.map(state => state.router.params.query.redirect);
+  // Use query parameter as redirect path
+  const redirectPath$ = state$.map(state => state.router.params.query.redirect);
 
   // Redirect on login!
-  const didLogin$
+  const redirect$
     .withLatestFrom(
-      didLogin$, redirect$, $transitionTo
-      (state, redirect, transitionTo) => transitionTo(redirect || '/')
+      didLogin$, redirectPath$, $transitionTo
+      (state, path, transitionTo) => transitionTo(path || '/')
     )
     .do(go => go());
 
   return combineLatest(
-    props$, actionCreators$, didLogin$,
+    props$, actionCreators$, redirect$,
     (props, actionCreators) => ({
       ...props,
       ...actionCreators
