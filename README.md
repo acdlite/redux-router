@@ -115,7 +115,7 @@ const LoginPage = createConnector(props$, state$, dispatch$, () => {
   const redirect$ = state$.map(state => state.router.params.query.redirect);
 
   // Redirect on login!
-  didLogin$
+  const didLogin$
     .withLatestFrom(
       didLogin$, redirect$, $transitionTo
       (state, redirect, transitionTo) => transitionTo(redirect || '/')
