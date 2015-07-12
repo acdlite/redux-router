@@ -7,11 +7,9 @@ import { TRANSITION_TO } from './actionTypes';
  * @param  {String|Object} payload - Pathname or object
  * @return {Object} Action object
  */
-export default function transitionTo(payload) {
+export default function transitionTo(pathname, query, state) {
   return {
     type: TRANSITION_TO,
-    payload: typeof payload === 'string'
-      ? { pathname: payload }
-      : payload || {}
+    payload: { pathname, query, state }
   };
 }
