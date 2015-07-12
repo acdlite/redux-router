@@ -69,7 +69,14 @@ export default function reduxRouteComponent(s) {
     onStateChange() {
       const storeState = this.state.store.getState();
 
-      if (!storeState.router) return;
+      // Exit early if route state does not exist
+      if (!storeState.router) {
+        console.warn(
+          'No router state was found at state.router. Ensure that the Redux '
+        + 'reducer has been property configured using routerStateReducer()'
+        );
+        return;
+      }
 
       const storeLocationState = storeState.router.state;
       const routerLocationState = this.context.router.state.location.state; // LOL
