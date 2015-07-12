@@ -18,7 +18,7 @@ npm install --save redux-react-router
 
 ## Why
 
-React Router is a fantastic routing library, but one downside that it abstracts away a very crucial piece of application state — the current route! This abstraction is super useful for route matching and rendering, but the API for interacting with the router to 1) trigger transitions and 2) react to state changes within the component lifecycle leaves something to be desired. The official recommendations include a collection of [mixins](https://github.com/rackt/react-router/tree/master/doc/04%20Mixins) and accessing the router on the context object, neither of which are very appealing.
+React Router is a fantastic routing library, but one downside is that it abstracts away a very crucial piece of application state — the current route! This abstraction is super useful for route matching and rendering, but the API for interacting with the router to 1) trigger transitions and 2) react to state changes within the component lifecycle leaves something to be desired. The official recommendations include a collection of [mixins](https://github.com/rackt/react-router/tree/master/doc/04%20Mixins) and accessing the router on the context object, neither of which are very appealing.
 
 It turns out we already solved these problems with Flux (and Redux): We use action creators to trigger state changes, and we use higher-order components to subscribe to state changes.
 
