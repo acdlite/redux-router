@@ -1,0 +1,39 @@
+{
+  "name": "redux-react-router",
+  "version": "0.3.0",
+  "description": "Redux bindings for React Router — keep your router state inside your Redux Store.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "make test",
+    "prepublish": "make clean build"
+  },
+  "keywords": [
+    "redux",
+    "react-router",
+    "react",
+    "router"
+  ],
+  "author": "Andrew Clark <acdlite@me.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^5.6.14",
+    "babel-core": "5.6.15",
+    "babel-eslint": "^3.1.20",
+    "babel-loader": "^5.3.1",
+    "chai": "^3.0.0",
+    "eslint": "^0.24.0",
+    "eslint-config-airbnb": "0.0.6",
+    "eslint-plugin-react": "^2.6.4",
+    "jsdom": "^5.6.0",
+    "mocha": "^2.2.5",
+    "mocha-jsdom": "^1.0.0",
+    "node-libs-browser": "^0.5.2",
+    "react": "0.14.0-beta1",
+    "react-dom": "0.14.0-beta1",
+    "react-hot-loader": "^1.2.8",
+    "react-router": "^1.0.0-beta3",
+    "redux": "git+https://github.com/acdlite/redux.git#36acbc8ec89e2ca4bf27667e1be5c286d6c12561",
+    "sinon": "^1.15.4",
+    "webpack": "^1.10.1"
+  }
+}
