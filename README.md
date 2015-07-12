@@ -64,7 +64,7 @@ import { reduxRouteComponent } from 'redux-react-router';
 
 `reduxRouteComponent()` creates a component that you pass to `<Route />`. This sets up your store to listen to route transitions.
 
-*NOTE:* This probably isn't the ideal API I'd create from scratch, but I'm working within the limits of React Router's current API.
+**NOTE:** This probably isn't the ideal API I'd create from scratch, but I'm working within the limits of React Router's current API.
 
 This will also add your to context, replacing the need to use a `<Provider />`.
 
