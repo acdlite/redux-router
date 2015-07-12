@@ -112,7 +112,7 @@ const LoginPage = createConnector(props$, state$, dispatch$, () => {
     .filter(state => state.loggedIn);
 
   // Use query parameter as redirect path
-  const redirectPath$ = state$.map(state => state.router.params.query.redirect);
+  const redirectPath$ = state$.map(state => state.router.query.redirect);
 
   // Redirect on login!
   const redirect$
