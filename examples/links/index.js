@@ -20,7 +20,6 @@ function reducer(state = {}, action) {
 }
 
 const store = batchedUpdates(devTools()(createStore))(reducer);
-const store = createStore(reducer);
 
 const redState = {
   pathname: '/color',
@@ -80,32 +79,6 @@ const App = pure(() => (
 ));
 
 const Foo = pure(() => <div>Foo</div>);
-const Bar = pure(() => <div>Bar</div>);
-
-//history.listen(location => {
-  // update redux store
-  var location = new Location(req.url, req.query);
-
-  fetchData(location, (data) => {
-
-  })
-
-
-  React.render((
-    <Router location={location} />
-  ))
-//})
-
-router.match(location, (params, components) => {
-  React
-});
-
-store.subscribe(location, state => {
-
-});
-
-<Router location={location} />
-<Router history={history} />
 
 ReactDOM.render((
   <Router history={history}>
