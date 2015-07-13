@@ -18,7 +18,10 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
-    extensions: ['', '.js']
+    extensions: ['', '.js'],
+    alias: {
+      'react': path.join(__dirname, '..', '..', 'node_modules', 'react')
+    }
   },
   module: {
     loaders: [{
