@@ -9,7 +9,7 @@ import locationStateEquals from './locationStateEquals';
  * @param {Router} Router instance
  */
 function routerMiddleware(router) {
-  return next => action => {
+  return () => next => action => {
     if (action.type === TRANSITION_TO) {
       const { pathname, query, state } = action.payload;
       router.transitionTo(pathname, query, state);
@@ -38,11 +38,11 @@ export default function reduxRouteComponent(s) {
     constructor(props, context) {
       super(props, context);
       const router = this.context.router;
-      const dispatch = routerMiddleware(router)(s.dispatch);
+      const dispatch = routerMiddleware(router)()(s.dispatch);
       const store = { ...s, dispatch };
       this.state = { store };
       this.unsubscribe = store.subscribe(() => this.onStateChange());
-      this.onLocationChange(props);
+      this.onLocationChange(props, this.state, context);
     }
 
     getChildContext() {
@@ -53,13 +53,23 @@ export default function reduxRouteComponent(s) {
       this.onLocationChange(props);
     }
 
+    storeIsInSyncWithRouter(state = this.state, context = this.context) {
+      const storeState = state.store.getState();
+      const storeLocationState = storeState.router.state;
+      const routerLocationState = context.router.state.location.state; // LOL
+      return locationStateEquals(storeLocationState, routerLocationState);
+    }
+
     /**
      * Update store state in response to router change
      */
-    onLocationChange(props = this.props, state = this.state) {
+    onLocationChange(props = this.props, state = this.state, context = this.context) {
       const { location, params } = props;
       const { dispatch } = state.store;
-      dispatch(locationDidChange(location, params));
+
+      if (!this.storeIsInSyncWithRouter(state, context)) {
+        dispatch(locationDidChange(location, params));
+      }
     }
 
     /**
@@ -78,12 +88,12 @@ export default function reduxRouteComponent(s) {
         return;
       }
 
-      const storeLocationState = storeState.router.state;
-      const routerLocationState = this.context.router.state.location.state; // LOL
-
-      if (!locationStateEquals(storeLocationState, routerLocationState)) {
+      if (!this.storeIsInSyncWithRouter()) {
         const { pathname, query, state } = storeState.router;
-        this.context.router.transitionTo(pathname, query, state);
+        // Check that pathname is defined
+        if (pathname) {
+          this.context.router.transitionTo(pathname, query, state);
+        }
       }
     }
 

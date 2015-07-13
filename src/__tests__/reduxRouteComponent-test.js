@@ -6,6 +6,7 @@ import jsdom from './jsdom';
 import React, { Component, addons } from 'react/addons';
 import { Router, Route } from 'react-router';
 import MemoryHistory from 'react-router/lib/MemoryHistory';
+import sinon from 'sinon';
 const { TestUtils } = addons;
 
 describe('reduxRouteComponent', () => {
@@ -21,6 +22,9 @@ describe('reduxRouteComponent', () => {
         },
         state: {
           key: 'q7ugo9odofq7iudi'
+        },
+        params: {
+          extra: 'special-something'
         }
       }
     };
@@ -48,6 +52,7 @@ describe('reduxRouteComponent', () => {
     }
 
     let child;
+    const reducerSpy = sinon.spy();
     const steps = [
       function step1() {
         setImmediate(() => {
@@ -75,6 +80,7 @@ describe('reduxRouteComponent', () => {
         expect(child.props.pathname).to.equal('/two/special-something');
         expect(child.props.params).to.eql({ extra: 'special-something' });
         expect(child.props.query).to.eql({ baz: 'foo' });
+        expect(reducerSpy.callCount).to.equal(5);
         done();
       }
     ];
@@ -84,6 +90,7 @@ describe('reduxRouteComponent', () => {
     }
 
     function reducer(state = {}, action) {
+      reducerSpy();
       return {
         router: routerStateReducer(state, action)
       };

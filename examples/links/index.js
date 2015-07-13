@@ -2,11 +2,16 @@ import { routerStateReducer, reduxRouteComponent, transitionTo } from '../../src
 import { LOCATION_DID_CHANGE } from '../../src/actionTypes';
 import { history } from 'react-router/lib/BrowserHistory';
 import { createStore } from 'redux';
-import { Connector } from 'redux/react';
+import { Connector } from 'react-redux';
+import { batchedUpdates } from 'redux-batched-updates';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link } from 'react-router';
 import pure from 'react-pure-component';
+
+import devTools from './redux-devtools/index';
+import DebugPanel from './redux-devtools/DebugPanel';
+import ReduxMonitor from './redux-devtools/ReduxMonitor';
 
 function reducer(state = {}, action) {
   return {
@@ -14,30 +19,27 @@ function reducer(state = {}, action) {
   };
 }
 
+const store = batchedUpdates(devTools()(createStore))(reducer);
 const store = createStore(reducer);
 
-const barState = {
-  pathname: '/bar',
+const redState = {
+  pathname: '/color',
   query: {
-    baz: 'foo'
+    hex: 'f00'
   },
-  navigationType: 'POP',
   state: {
     key: 'fbfv9pchy83t0529'
-  },
-  params: {}
+  }
 };
 
-const fooState = {
-  pathname: '/foo',
+const blueState = {
+  pathname: '/color',
   query: {
-    bar: 'baz'
+    hex: '00f'
   },
-  navigationType: 'PUSH',
   state: {
     key: 'q7ugo9odofq7iudi'
-  },
-  params: {}
+  }
 };
 
 
@@ -49,31 +51,67 @@ function externalStateChange(state) {
 }
 
 const App = pure(() => (
-  <Connector select={s => s}>{({ dispatch, router }) => (
-    <div>
-      <p>Works with <code>{'<Link />'}</code>:</p>
-      <Link to="/foo?bar=baz">Foo</Link>
-      <Link to="/bar?baz=foo">Bar</Link>
-      <p>Works with <code>transitionTo()</code> action creator:</p>
-      <button onClick={() => dispatch(transitionTo('/foo?bar=baz'))}>Foo</button>
-      <button onClick={() => dispatch(transitionTo('/bar?baz=foo'))}>Bar</button>
-      <p>Works when store state is updated via some other mechanism like devtools or deserialization (check URL):</p>
-      <button onClick={() => dispatch(externalStateChange(fooState))}>Foo</button>
-      <button onClick={() => dispatch(externalStateChange(barState))}>Bar</button>
-      <p>Location: {JSON.stringify(router)}</p>
-    </div>
-  )}</Connector>
+  <div>
+    <Connector select={s => s}>{({ dispatch, router }) => (
+      <div style={{
+        backgroundColor: router.query && `#${router.query.hex}`,
+        color: '#fff',
+        transition: 'background-color 150ms ease-in-out',
+        position: 'fixed',
+        height: '100%',
+        width: '100%'
+      }}>
+        <p>Works with <code>{'<Link />'}</code>:</p>
+        <Link to="/color?hex=f00">Red</Link>
+        <Link to="/color?hex=00f">Blue</Link>
+        <p>Works with <code>transitionTo()</code> action creator:</p>
+        <button onClick={() => dispatch(transitionTo('/color?hex=f00'))}>Red</button>
+        <button onClick={() => dispatch(transitionTo('/color?hex=00f'))}>Blue</button>
+        <p>Works when store state is updated via some other mechanism like devtools or deserialization (check URL):</p>
+        <button onClick={() => dispatch(externalStateChange(redState))}>Red</button>
+        <button onClick={() => dispatch(externalStateChange(blueState))}>Blue</button>
+        <p>Location: {JSON.stringify(router)}</p>
+      </div>
+    )}</Connector>
+    <DebugPanel top right bottom>
+      <ReduxMonitor store={store} />
+    </DebugPanel>
+  </div>
 ));
 
 const Foo = pure(() => <div>Foo</div>);
 const Bar = pure(() => <div>Bar</div>);
 
+//history.listen(location => {
+  // update redux store
+  var location = new Location(req.url, req.query);
+
+  fetchData(location, (data) => {
+
+  })
+
+
+  React.render((
+    <Router location={location} />
+  ))
+//})
+
+router.match(location, (params, components) => {
+  React
+});
+
+store.subscribe(location, state => {
+
+});
+
+<Router location={location} />
+<Router history={history} />
+
 ReactDOM.render((
   <Router history={history}>
     <Route component={reduxRouteComponent(store)}>
       <Route path="/" component={App}>
-        <Route path="/foo" component={Foo} />
-        <Route path="/bar" component={Bar} />
+        <Route path="/color" component={Foo} />
       </Route>
     </Route>
   </Router>
