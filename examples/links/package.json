@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "react-pure-component": "^0.1.0",
-    "redux": "^1.0.0-alpha",
-    "react-redux": "^0.1.0"
+    "react-redux": "^0.2.1",
+    "redux": "^1.0.0-alpha"
   }
 }
