@@ -1,4 +1,4 @@
-import { LOCATION_DID_CHANGE } from './actionTypes';
+import { LOCATION_DID_CHANGE, TRANSITION_TO } from './actionTypes';
 
 /**
  * Reducer of LOCATION_DID_CHANGE actions. Returns a state object
@@ -8,7 +8,7 @@ import { LOCATION_DID_CHANGE } from './actionTypes';
  * @return {Object} New state
  */
 export default function routerStateReducer(state = {}, action) {
-  return action.type === LOCATION_DID_CHANGE
+  return [LOCATION_DID_CHANGE, TRANSITION_TO].indexOf(action.type) !== -1
     ? action.payload
     : state;
 }
