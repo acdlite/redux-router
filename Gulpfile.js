@@ -4,6 +4,7 @@ var babel = require('gulp-babel');
 var eslint = require('gulp-eslint');
 var rimraf = require('rimraf');
 var mocha = require('gulp-mocha');
+var babelRegister = require('babel/register');
 
 var DEST_DIR = './lib';
 var SRC_GLOB_PATTERN = 'src/**/*.js';
@@ -28,6 +29,8 @@ gulp.task('test-no-exit', ['lint'], function() {
 gulp.task('build', gulpsync.sync['clean', 'js']);
 
 gulp.task('test', ['lint'], function() {
+	babelRegister();
+
 	return gulp.src(TEST_GLOB_PATTERN)
 		.pipe(mocha({
 			require: [TEST_INIT_FILE]
@@ -51,6 +54,8 @@ gulp.task('watch', ['build'], function(cb){
 
 gulp.task('test-watch', ['test-no-exit'], function() {
 	console.log('Watching ' + TEST_GLOB_PATTERN);
+	babelRegister();
+
 	gulp.watch(TEST_GLOB_PATTERN, ['test-no-exit']);
 });
 
@@ -62,5 +67,3 @@ gulp.task('lint', function() {
 });
 
 gulp.task('default', ['build']);
-
-require('babel/register')();
