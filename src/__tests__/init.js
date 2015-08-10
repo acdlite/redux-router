@@ -1,2 +1,2 @@
-import chai from 'chai';
+var chai = require('chai');
 global.expect = chai.expect;

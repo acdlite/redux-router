@@ -14,7 +14,12 @@
 
     "padded-blocks": 0,
     "no-use-before-define": [2, "nofunc"],
-    "no-unused-expressions": 0
+    "no-unused-expressions": 0,
+    "no-reserved-keys": 0,
+    "no-wrap-func": 0,
+    "spaced-line-comment": 0,
+    "no-console": 0,
+    "no-var": 0
   },
   "plugins": [
     "react"

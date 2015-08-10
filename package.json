@@ -4,10 +4,10 @@
   "description": "Redux bindings for React Router — keep your router state inside your Redux Store.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "make test",
-    "prepublish": "make clean build"
+    "test": "gulp test",
+    "prepublish": "gulp"
   },
-  "repository":{
+  "repository": {
     "type": "git",
     "url": "git://github.com/acdlite/redux-react-router.git"
   },
@@ -21,13 +21,18 @@
   "license": "MIT",
   "devDependencies": {
     "babel": "^5.6.14",
-    "babel-core": "5.6.15",
+    "babel-core": "^5.8.21",
     "babel-eslint": "^3.1.20",
-    "babel-loader": "^5.3.1",
+    "babel-loader": "^5.3.2",
     "chai": "^3.0.0",
-    "eslint": "^0.24.0",
+    "eslint": "^1.1.0",
     "eslint-config-airbnb": "0.0.6",
     "eslint-plugin-react": "^2.6.4",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.0",
+    "gulp-eslint": "^1.0.0",
+    "gulp-mocha": "^2.1.3",
+    "gulp-sync": "^0.1.4",
     "jsdom": "^5.6.0",
     "mocha": "^2.2.5",
     "mocha-jsdom": "^1.0.0",
@@ -37,8 +42,8 @@
     "react-hot-loader": "^1.2.8",
     "react-router": "^1.0.0-beta3",
     "redux": "1.0.0-alpha",
-    "sinon": "^1.15.4",
-    "webpack": "^1.10.1"
+    "rimraf": "^2.4.2",
+    "sinon": "^1.15.4"
   },
   "dependencies": {}
 }
