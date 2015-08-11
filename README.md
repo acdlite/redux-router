@@ -49,9 +49,10 @@ First, add a new Route to your route configuration that wraps around all the oth
 
 ```js
 import { reduxRouteComponent } from 'redux-react-router';
+const RouteComponent = reduxRouteComponent(store);
 
 <Router history={history}>
-  <Route component={reduxRouteComponent(store)}>
+  <Route component={RouteComponent}>
     <Route path="/" component={App}>
       <Route path="/foo" component={Foo} />
       <Route path="/bar" component={Bar} />
