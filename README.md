@@ -31,12 +31,14 @@ This library allows you to keep your router state **inside your Redux store**. S
 </Connector>
 ```
 
-There's also an (optional) action creator that will trigger a route change:
+There are also (optional) action creators that will trigger route changes:
 
 ```js
-dispatch(transitionTo('/search', { q: 'redux' });
+dispatch(transitionTo('/search', { q: 'redux' }));
+dispatch(replaceWith('/search', { q: 'redux' }));
 // Or after using bindActionCreators() or equivalent
 transitionTo('/search', { q: 'redux' });
+replaceWith('/search', { q: 'redux' });
 ```
 
 ### Works with Redux Devtools (and other external state changes)
@@ -95,6 +97,10 @@ A reducer that keeps track of Router state. Be sure it's configured such that th
 ### `transitionTo(pathname, query, state)`
 
 An action creator that works like [`router.transitionTo()`](https://github.com/rackt/react-router/blob/master/doc/04%20Mixins/Navigation.md#transitionto).
+
+### `replaceWith(pathname, query, state)`
+
+An action creator that works like [`router.replaceWith()`](https://github.com/rackt/react-router/blob/master/doc/04%20Mixins/Navigation.md#replacewith).
 
 ## Bonus: Reacting to state changes with redux-rx
 

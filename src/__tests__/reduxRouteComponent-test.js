@@ -1,4 +1,4 @@
-import { transitionTo, routerStateReducer, reduxRouteComponent } from '../';
+import { transitionTo, replaceWith, routerStateReducer, reduxRouteComponent } from '../';
 import { LOCATION_DID_CHANGE } from '../actionTypes';
 import { createStore } from 'redux';
 import { Connector } from 'redux/react';
@@ -39,6 +39,7 @@ describe('reduxRouteComponent', () => {
               {...props.router}
               externalStateChange={() => props.dispatch(externalStateChange())}
               transitionTo={(...args) => props.dispatch(transitionTo(...args))}
+              replaceWith={(...args) => props.dispatch(replaceWith(...args))}
             />
           )}</Connector>
         );
@@ -58,17 +59,31 @@ describe('reduxRouteComponent', () => {
         setImmediate(() => {
           expect(child.props.pathname).to.equal('/one');
           // Normal React Router transition
-          this.transitionTo('/two/something?foo=bar');
+          this.transitionTo('/faketwo');
         });
       },
       function step2() {
+        setImmediate(() => {
+          expect(child.props.pathname).to.equal('/faketwo');
+          // Normal React Router url replacement
+          this.replaceWith('/two/something?foo=bar');
+        });
+      },
+      function step3() {
         expect(child.props.pathname).to.equal('/two/something');
         expect(child.props.params).to.eql({ extra: 'something' });
         expect(child.props.query).to.eql({ foo: 'bar' });
         // Action creator transition
-        child.props.transitionTo('/two/something-special?bar=baz');
+        child.props.transitionTo('/two/somewhat-special?top=kek');
       },
-      function step3() {
+      function step4() {
+        expect(child.props.pathname).to.equal('/two/somewhat-special');
+        expect(child.props.params).to.eql({ extra: 'somewhat-special' });
+        expect(child.props.query).to.eql({ top: 'kek' });
+        // Action creator replacement
+        child.props.replaceWith('/two/something-special?bar=baz');
+      },
+      function step5() {
         expect(child.props.pathname).to.equal('/two/something-special');
         expect(child.props.params).to.eql({ extra: 'something-special' });
         expect(child.props.query).to.eql({ bar: 'baz' });
@@ -76,11 +91,11 @@ describe('reduxRouteComponent', () => {
         // (e.g. devtools, state deserialization)
         child.props.externalStateChange();
       },
-      function step4() {
+      function step6() {
         expect(child.props.pathname).to.equal('/two/special-something');
         expect(child.props.params).to.eql({ extra: 'special-something' });
         expect(child.props.query).to.eql({ baz: 'foo' });
-        expect(reducerSpy.callCount).to.equal(5);
+        expect(reducerSpy.callCount).to.equal(7);
         done();
       }
     ];
@@ -103,6 +118,7 @@ describe('reduxRouteComponent', () => {
         <Route component={reduxRouteComponent(store)}>
           <Route component={App}>
             <Route path="one" />
+            <Route path="faketwo" />
             <Route path="two/:extra" />
           </Route>
         </Route>

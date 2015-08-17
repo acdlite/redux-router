@@ -1,5 +1,5 @@
 import { Component, PropTypes } from 'react';
-import { TRANSITION_TO } from './actionTypes';
+import { TRANSITION_TO, REPLACE_WITH } from './actionTypes';
 import locationDidChange from './locationDidChange';
 import locationStateEquals from './locationStateEquals';
 
@@ -13,6 +13,9 @@ function routerMiddleware(router) {
     if (action.type === TRANSITION_TO) {
       const { pathname, query, state } = action.payload;
       router.transitionTo(pathname, query, state);
+    } else if (action.type === REPLACE_WITH) {
+      const { pathname, query, state } = action.payload;
+      router.replaceWith(pathname, query, state);
     } else {
       return next(action);
     }
