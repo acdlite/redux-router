@@ -23,12 +23,24 @@ function routerMiddleware(router) {
 }
 
 /**
+ * Shows a warning on the console if the router state can't be found.
+ */
+function logMissingStateWarning() {
+  console.warn(
+    'No router state was found at the location returned by the state selector function. '
+  + 'Ensure that the Redux reducer has been property configured using routerStateReducer()'
+  );
+}
+
+/**
  * Creates a component to be used as the `component` prop of a <Route />. Also
  * adds the store to context, serving as a replacement for <Provider />
- * @param  {Object} store - Redux store
+ * @param  {Object}   store - Redux store
+ * @param  {Function} [stateSelectorFunc] - Function to select the location in the store
+ *                                          which contains the router state.
  * @return {Component}
  */
-export default function reduxRouteComponent(s) {
+export default function reduxRouteComponent(s, stateSelectorFunc = state => state.router) {
   return class ReduxRoute extends Component {
     static contextTypes = {
       router: PropTypes.object
@@ -58,7 +70,7 @@ export default function reduxRouteComponent(s) {
 
     storeIsInSyncWithRouter(state = this.state, context = this.context) {
       const storeState = state.store.getState();
-      const storeLocationState = storeState.router.state;
+      const storeLocationState = stateSelectorFunc(storeState).state;
       const routerLocationState = context.router.state.location.state; // LOL
       return locationStateEquals(storeLocationState, routerLocationState);
     }
@@ -68,7 +80,14 @@ export default function reduxRouteComponent(s) {
      */
     onLocationChange(props = this.props, state = this.state, context = this.context) {
       const { location, params } = props;
-      const { dispatch } = state.store;
+      const { dispatch, getState } = state.store;
+      const storeState = getState();
+
+      // Exit early if route state does not exist
+      if (!stateSelectorFunc(storeState)) {
+        logMissingStateWarning();
+        return;
+      }
 
       if (!this.storeIsInSyncWithRouter(state, context)) {
         dispatch(locationDidChange(location, params));
@@ -83,16 +102,13 @@ export default function reduxRouteComponent(s) {
       const storeState = this.state.store.getState();
 
       // Exit early if route state does not exist
-      if (!storeState.router) {
-        console.warn(
-          'No router state was found at state.router. Ensure that the Redux '
-        + 'reducer has been property configured using routerStateReducer()'
-        );
+      if (!stateSelectorFunc(storeState)) {
+        logMissingStateWarning();
         return;
       }
 
       if (!this.storeIsInSyncWithRouter()) {
-        const { pathname, query, state } = storeState.router;
+        const { pathname, query, state } = stateSelectorFunc(storeState);
         // Check that pathname is defined
         if (pathname) {
           this.context.router.transitionTo(pathname, query, state);
