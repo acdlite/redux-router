@@ -8,8 +8,10 @@ import locationStateEquals from './locationStateEquals';
  * a transition.
  * @param {Router} Router instance
  */
-function routerMiddleware(router) {
-  return () => next => action => {
+let router = null;
+
+export function routerMiddleware() {
+  return next => action => {
     if (action.type === TRANSITION_TO) {
       const { pathname, query, state } = action.payload;
       router.transitionTo(pathname, query, state);
@@ -40,8 +42,8 @@ export default function reduxRouteComponent(s) {
 
     constructor(props, context) {
       super(props, context);
-      const router = this.context.router;
-      const dispatch = routerMiddleware(router)()(s.dispatch);
+      router = this.context.router;
+      const dispatch = s.dispatch;
       const store = { ...s, dispatch };
       this.state = { store };
       this.unsubscribe = store.subscribe(() => this.onStateChange());
