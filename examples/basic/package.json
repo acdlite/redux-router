@@ -1,0 +1,12 @@
+{
+  "name": "redux-react-router-basic-example",
+  "version": "0.1.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r babel/register server.js"
+  },
+  "author": "Andrew Clark <acdlite@me.com>",
+  "license": "MIT"
+}
