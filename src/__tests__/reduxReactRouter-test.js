@@ -113,4 +113,31 @@ describe('reduxRouter()', () => {
     expect(store.getState().router.location.query).to.eql({ key: 'value2' });
     expect(store.getState().router.params).to.eql({ id: '321' });
   });
+
+  it('doesn\'t interfere with other actions', () => {
+    const APPEND_STRING = 'APPEND_STRING';
+
+    function stringBuilderReducer(state = '', action) {
+      if (action.type === APPEND_STRING) {
+        return state + action.string;
+      }
+      return state;
+    }
+
+    const reducer = combineReducers({
+      router: routerStateReducer,
+      string: stringBuilderReducer
+    });
+
+    const history = createHistory();
+
+    const store = reduxReactRouter({
+      history,
+      routes
+    })(createStore)(reducer);
+
+    store.dispatch({ type: APPEND_STRING, string: 'Uni' });
+    store.dispatch({ type: APPEND_STRING, string: 'directional' });
+    expect(store.getState().string).to.equal('Unidirectional');
+  });
 });

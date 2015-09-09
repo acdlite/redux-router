@@ -7,13 +7,12 @@ import { PUSH_STATE, REPLACE_STATE } from './constants';
  */
 export default function historyMiddleware(history) {
   return () => next => action => {
-    const { state, pathname, query } = action.payload;
     switch (action.type) {
     case PUSH_STATE:
-      history.pushState(state, pathname, query);
+      history.pushState(...action.payload);
       break;
     case REPLACE_STATE:
-      history.replaceState(state, pathname, query);
+      history.replaceState(...action.payload);
       break;
     default:
       return next(action);

@@ -17,10 +17,7 @@ export const ROUTER_DID_CHANGE = '@@reduxReactRouter/routerDidChange';
 
 // Hidden store properties that allow the store enhancer to expose certain non-
 // state things to <ReduxRouter>, so the user doesn't have to configure them
-// in both places.
+// in both places:
 //
-// Exposes the history object
-export const HISTORY = '@@reduxReactRouter/history';
-
 // Exposes the router state selector
 export const ROUTER_STATE_SELECTOR = '@@reduxReactRouter/routerStateSelector';

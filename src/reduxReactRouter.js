@@ -4,7 +4,7 @@ import routerDidChange from './routerDidChange';
 import routerStateEquals from './routerStateEquals';
 import { applyMiddleware } from 'redux';
 import { useRoutes, createRoutes } from 'react-router';
-import { HISTORY, ROUTER_STATE_SELECTOR } from './constants';
+import { ROUTER_STATE_SELECTOR } from './constants';
 
 const defaults = {
   onError: error => { throw error; },
@@ -37,7 +37,7 @@ export default function reduxReactRouter(options) {
         externalStateChangeMiddleware(routerStateSelector)
       )(createStore)(reducer, initialState);
 
-    store[HISTORY] = history;
+    store.history = history;
     store[ROUTER_STATE_SELECTOR] = routerStateSelector;
 
     history.listen((error, nextRouterState) => {

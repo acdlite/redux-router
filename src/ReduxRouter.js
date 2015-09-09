@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { RoutingContext } from 'react-router';
 import routerStateEquals from './routerStateEquals';
-import { HISTORY, ROUTER_STATE_SELECTOR } from './constants';
+import { ROUTER_STATE_SELECTOR } from './constants';
 
 function memoizeRouterStateSelector(selector) {
   let previousRouterState = null;
@@ -33,7 +33,7 @@ class ReduxRouter extends Component {
     }
 
     const {
-      [HISTORY]: history,
+      history,
       [ROUTER_STATE_SELECTOR]: routerStateSelector
     } = store;
 
