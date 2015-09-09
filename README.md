@@ -4,6 +4,16 @@ redux-react-router
 [![build status](https://img.shields.io/travis/acdlite/redux-react-router/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-react-router)
 [![npm version](https://img.shields.io/npm/v/redux-react-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-react-router)
 
+## The next version of Redux React Router
+
+This branch contains the next release of Redux React Router. It will likely become v1.0. This is a complete rewrite using the new, more modular primitives exposed by React Router v1.0.0-beta4. It currently depends on a React Router module that is not exported publicly (see https://github.com/rackt/react-router/pull/1852), so it is not yet published on npm. I will push it to npm as soon as there is another React Router release.
+
+In the meantime, you can play around with a [basic example](https://github.com/acdlite/redux-react-router/tree/next/examples/basic), or try it out yourself using a [forked version](https://github.com/acdlite/redux-react-router/blob/next/package.json#L38) of React Router.
+
+Better docs are forthcoming; some of the information below may be outdated.
+
+***
+
 Redux bindings for React Router.
 
 - Keep your router state inside your Redux Store.
@@ -15,8 +25,6 @@ Redux bindings for React Router.
 ```js
 npm install --save redux-react-router
 ```
-
-**Note that this is currently an experiment in providing a more natural API for React Router integration with Redux. You can use React Router with Redux as is just fine. [Learn More](https://github.com/rackt/redux/issues/637).**
 
 ## Why
 
@@ -33,76 +41,34 @@ This library allows you to keep your router state **inside your Redux store**. S
 </Connector>
 ```
 
-There are also (optional) action creators that will trigger route changes:
+There are also (optional) action creators that work just like their [history](https://github.com/rackt/history) equivalents:
 
 ```js
-dispatch(transitionTo('/search', { q: 'redux' }));
-dispatch(replaceWith('/search', { q: 'redux' }));
-// Or after using bindActionCreators() or equivalent
-transitionTo('/search', { q: 'redux' });
-replaceWith('/search', { q: 'redux' });
+pushState(null, '/search', { q: 'redux' }));
+replaceState(null, '/search', { q: 'redux' }));
 ```
 
 ### Works with Redux Devtools (and other external state changes)
 
 redux-react-router will notice if the router state in your Redux store changes from an external source other than the router itself — e.g. the Redux Devtools — and trigger a transition accordingly!
 
-## Usage
-
-First, add a new Route to your route configuration that wraps around all the other routes:
-
-```js
-import { reduxRouteComponent } from 'redux-react-router';
-const RouteComponent = reduxRouteComponent(store);
-
-<Router history={history}>
-  <Route component={RouteComponent}>
-    <Route path="/" component={App}>
-      <Route path="/foo" component={Foo} />
-      <Route path="/bar" component={Bar} />
-    </Route>
-  </Route>
-</Router>
-```
-
-`reduxRouteComponent()` creates a component that you pass to `<Route />`. This sets up your store to listen to route transitions.
-
-**NOTE:** This probably isn't the ideal API I'd create from scratch, but I'm working within the limits of React Router's current API.
-
-This will also add your to context, replacing the need to use a `<Provider />`.
-
-**NOTE:** React 0.13 and below use owner-based context. Long story short, you'll still need to use a `<Provider />` until React 0.14 is out of beta. Until then, you also won't be able to use the `transitionTo()` action creator. The normal React Router API for transitions will continue to work, however, as will state updates.
-
-Next, configure your reducer to respond to route transitions:
-
-```js
-import { routerStateReducer } from 'redux-react-router';
-
-const reducer = combineReducers({
-  router: routerStateReducer,
-  ...otherReducers
-})
-```
-
-The router state should be stored at `state.router` in order to properly detect state changes. A helpful warning will be printed to the console if the reducer is improperly configured.
-
 ## API
 
-### `reduxRouteComponent(store)`
+### `reduxReactRouter({ routes, createHistory })`
 
-Creates a component to be passed to `<Route component={component} />`. The `<Route />` should wrap all the other routes.
+A Redux store enhancer that adds router state to the store.
 
 ### `routerStateReducer(state, action)`
 
-A reducer that keeps track of Router state. Be sure it's configured such that the router state is located on the main state object at `state.router`. This is simple using `combineReducers()` — see the example in the Usage section above.
+A reducer that keeps track of Router state.
 
-### `transitionTo(pathname, query, state)`
+### `<ReduxRouter>`
 
-An action creator that works like [`router.transitionTo()`](https://github.com/rackt/react-router/blob/master/doc/04%20Mixins/Navigation.md#transitionto).
+A component that renders a React Router app from state provided by a `<Provider>`.
+
+### `pushState(state, pathname, query)`
 
 ### `replaceWith(pathname, query, state)`
-
-An action creator that works like [`router.replaceWith()`](https://github.com/rackt/react-router/blob/master/doc/04%20Mixins/Navigation.md#replacewith).
 
 ## Bonus: Reacting to state changes with redux-rx
 
