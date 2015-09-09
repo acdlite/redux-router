@@ -20,7 +20,7 @@ For this alpha, you'll also need to use a branch of React Router that exposes th
 npm install --save react-router@git+https://github.com/acdlite/react-router.git#d8a41c86090ee661bc19b93c0a9169db510c46d8
 ```
 
-Better docs are forthcoming; some of the information below may be outdated. In the meantime, you can play around with a [basic example](https://github.com/acdlite/redux-react-router/tree/next/examples/basic), or try it out yourself using a [forked version](https://github.com/acdlite/redux-react-router/blob/next/package.json#L38) of React Router.
+Better docs are forthcoming; some of the information below may be outdated. In the meantime, you can play around with a [basic example](https://github.com/acdlite/redux-react-router/tree/next/examples/basic).
 
 ***
 
