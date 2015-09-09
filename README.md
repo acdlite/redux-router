@@ -4,6 +4,12 @@ redux-react-router
 [![build status](https://img.shields.io/travis/acdlite/redux-react-router/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-react-router)
 [![npm version](https://img.shields.io/npm/v/redux-react-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-react-router)
 
+### Hey! Check out the [next](https://github.com/acdlite/redux-react-router/tree/next) branch.
+
+It contains an all-new (much nicer) API using bleeding edge features of React Router.
+
+---
+
 Redux bindings for React Router.
 
 - Keep your router state inside your Redux Store.
