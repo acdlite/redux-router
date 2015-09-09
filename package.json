@@ -4,8 +4,12 @@
   "description": "Redux bindings for React Router — keep your router state inside your Redux Store.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "make test",
-    "prepublish": "make clean build"
+    "build": "babel src --out-dir lib",
+    "clean": "rimraf lib",
+    "lint": "eslint src",
+    "test": "mocha --compilers js:babel/register --recursive --require src/__tests__/init.js src/**/*-test.js",
+    "test-watch": "mocha --compilers js:babel/register --recursive --require src/__tests__/init.js -w src/**/*-test.js",
+    "prepublish": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
@@ -38,6 +42,7 @@
     "react-router": "git+https://github.com/acdlite/react-router.git#d8a41c86090ee661bc19b93c0a9169db510c46d8",
     "redux": "2.x",
     "redux-devtools": "^2.1.0",
+    "rimraf": "^2.4.3",
     "sinon": "^1.15.4",
     "webpack": "^1.12.1"
   },
