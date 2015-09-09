@@ -6,11 +6,21 @@ redux-react-router
 
 ## The next version of Redux React Router
 
-This branch contains the next release of Redux React Router. It will likely become v1.0. This is a complete rewrite using the new, more modular primitives exposed by React Router v1.0.0-beta4. It currently depends on a React Router module that is not exported publicly (see https://github.com/rackt/react-router/pull/1852), so it is not yet published on npm. I will push it to npm as soon as there is another React Router release.
+This branch contains the next release of Redux React Router. This is a complete rewrite using the new, more modular primitives exposed by React Router v1.0.0-beta4. A pre-release is a available as v1.0.0-alpha1, but **please note that this version is not production-ready and considered unstable.** It currently depends on a React Router module that is not exported publicly (see https://github.com/rackt/react-router/pull/1852).
 
-In the meantime, you can play around with a [basic example](https://github.com/acdlite/redux-react-router/tree/next/examples/basic), or try it out yourself using a [forked version](https://github.com/acdlite/redux-react-router/blob/next/package.json#L38) of React Router.
+To install the prerelease:
 
-Better docs are forthcoming; some of the information below may be outdated.
+```
+npm install --save redux-react-router@prerelease
+```
+
+For this alpha, you'll also need to use a branch of React Router that exposes the `createRoutes.js` and `useRouting.js` modules. (These changes have been merged into master. Once a new React Router version is released, this will no longer be necessary.)
+
+```
+npm install --save react-router@git+https://github.com/acdlite/react-router.git#d8a41c86090ee661bc19b93c0a9169db510c46d8
+```
+
+Better docs are forthcoming; some of the information below may be outdated. In the meantime, you can play around with a [basic example](https://github.com/acdlite/redux-react-router/tree/next/examples/basic), or try it out yourself using a [forked version](https://github.com/acdlite/redux-react-router/blob/next/package.json#L38) of React Router.
 
 ***
 
