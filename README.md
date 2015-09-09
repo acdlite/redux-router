@@ -94,13 +94,15 @@ The router state should be stored at `state.router` in order to properly detect 
 
 ## API
 
-### `reduxRouteComponent(store)`
+### `reduxRouteComponent(store, stateSelectorFunc)`
 
-Creates a component to be passed to `<Route component={component} />`. The `<Route />` should wrap all the other routes.
+Creates a component to be passed to `<Route component={component} />`. The `<Route />` should wrap all the other routes. 
+
+Accepts an optional `stateSelectorFunc` function to specify the router state location if it is not stored at `state.router` (see `routerStateReducer` for more information).
 
 ### `routerStateReducer(state, action)`
 
-A reducer that keeps track of Router state. Be sure it's configured such that the router state is located on the main state object at `state.router`. This is simple using `combineReducers()` — see the example in the Usage section above.
+A reducer that keeps track of Router state. You can store the state anywhere on the main state object, but if you put it anywhere other than `state.router` you will need to specify a selector function in the `reduxRouteComponent` (this registration is typically done using `combineReducers()` — see the example in the Usage section above).
 
 ### `transitionTo(pathname, query, state)`
 

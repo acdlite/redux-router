@@ -127,4 +127,71 @@ describe('reduxRouteComponent', () => {
 
     child = TestUtils.findRenderedComponentWithType(tree, Child);
   });
+
+  it('uses state selector function to find router state', done => {
+    function reducer(state = {}, action) {
+      return {
+        otherSpot: routerStateReducer(state, action)
+      };
+    }
+
+    const store = createStore(reducer);
+
+    class App extends Component {
+      render() {
+        return (
+          <Connector select={s => s}>{props => (
+            <Child
+              {...props.otherSpot}
+              externalStateChange={() => props.dispatch(externalStateChange())}
+              transitionTo={(...args) => props.dispatch(transitionTo(...args))}
+              replaceWith={(...args) => props.dispatch(replaceWith(...args))}
+            />
+          )}</Connector>
+        );
+      }
+    }
+
+    class Child extends Component {
+      render() {
+        return <div />;
+      }
+    }
+
+    let child;
+    const steps = [
+      function step1() {
+        setImmediate(() => {
+          expect(child.props.pathname).to.equal('/one');
+          // Normal React Router transition
+          this.transitionTo('/faketwo');
+        });
+      },
+      function step2() {
+        setImmediate(() => {
+          expect(child.props.pathname).to.equal('/faketwo');
+          expect(store.getState().otherSpot).to.contain.property('pathname', '/faketwo');
+          done();
+        });
+      }
+    ];
+
+    function execNextStep() {
+      steps.shift().apply(this, arguments);
+    }
+
+    const tree = TestUtils.renderIntoDocument(
+      <Router history={new MemoryHistory('/one')} onUpdate={execNextStep}>
+        <Route component={reduxRouteComponent(store, state => state.otherSpot)}>
+          <Route component={App}>
+            <Route path="one" />
+            <Route path="faketwo" />
+            <Route path="two/:extra" />
+          </Route>
+        </Route>
+      </Router>
+    );
+
+    child = TestUtils.findRenderedComponentWithType(tree, Child);
+  });
 });
