@@ -8,5 +8,6 @@
     "start": "node -r babel/register server.js"
   },
   "author": "Andrew Clark <acdlite@me.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }

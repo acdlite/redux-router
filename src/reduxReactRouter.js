@@ -1,5 +1,4 @@
 import historyMiddleware from './historyMiddleware';
-import externalStateChangeMiddleware from './externalStateChangeMiddleware';
 import routerDidChange from './routerDidChange';
 import routerStateEquals from './routerStateEquals';
 import { applyMiddleware } from 'redux';
@@ -24,6 +23,7 @@ export default function reduxReactRouter(options) {
       routerStateSelector
     } = { ...defaults, ...options };
 
+    let routerState;
     let store;
 
     function dispatch(action) {
@@ -46,8 +46,7 @@ export default function reduxReactRouter(options) {
 
     store =
       applyMiddleware(
-        historyMiddleware(history),
-        externalStateChangeMiddleware(routerStateSelector)
+        historyMiddleware(history)
       )(createStore)(reducer, initialState);
 
     store.history = history;
@@ -58,12 +57,25 @@ export default function reduxReactRouter(options) {
         onError(error);
         return;
       }
-
       const prevRouterState = routerStateSelector(store.getState());
 
       if (!routerStateEquals(prevRouterState, nextRouterState)) {
         store.dispatch(routerDidChange(nextRouterState));
       }
+    });
+
+    store.subscribe(() => {
+      const nextRouterState = routerStateSelector(getState());
+
+      if (
+        nextRouterState &&
+        !routerStateEquals(routerState, nextRouterState)
+      ) {
+        const { state, pathname, query } = nextRouterState.location;
+        history.replaceState(state, pathname, query);
+      }
+
+      routerState = nextRouterState;
     });
 
     return store;

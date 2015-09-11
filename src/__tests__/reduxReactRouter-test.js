@@ -52,7 +52,8 @@ describe('reduxRouter()', () => {
     const externalState = {
       location: {
         pathname: '/parent/child/123',
-        query: { key: 'value' }
+        query: { key: 'value' },
+        key: 'lolkey'
       }
     };
 
