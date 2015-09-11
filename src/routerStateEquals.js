@@ -1,7 +1,7 @@
 import deepEqual from 'deep-equal';
 
 /**
- * Check if two router states are equal, using location.key.
+ * Check if two router states are equal. Ignores `location.key`.
  * @returns {Boolean}
  */
 export default function routerStateEquals(a, b) {
