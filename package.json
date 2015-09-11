@@ -47,7 +47,6 @@
     "webpack": "^1.12.1"
   },
   "dependencies": {
-    "deep-equal": "^1.0.1",
-    "lodash": "^3.10.1"
+    "deep-equal": "^1.0.1"
   }
 }
