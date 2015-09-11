@@ -14,7 +14,8 @@ const defaults = {
 export default function reduxReactRouter(options) {
   return createStore => (reducer, initialState) => {
     const {
-      routes,
+      routes: baseRoutes,
+      getRoutes,
       history: baseHistory,
       createHistory: baseCreateHistory,
       parseQueryString,
@@ -23,15 +24,27 @@ export default function reduxReactRouter(options) {
       routerStateSelector
     } = { ...defaults, ...options };
 
-    const createHistory = baseCreateHistory || (() => baseHistory);
+    let store;
 
+    function dispatch(action) {
+      if (store) return store.dispatch(action);
+    }
+
+    function getState() {
+      if (store) return store.getState();
+    }
+
+    const routes = typeof getRoutes === 'function'
+      ? getRoutes(dispatch, getState)
+      : baseRoutes;
+    const createHistory = baseCreateHistory || (() => baseHistory);
     const history = useRoutes(createHistory)({
       routes: createRoutes(routes),
       parseQueryString,
       stringifyQuery
     });
 
-    const store =
+    store =
       applyMiddleware(
         historyMiddleware(history),
         externalStateChangeMiddleware(routerStateSelector)
