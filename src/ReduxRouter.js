@@ -27,7 +27,7 @@ class ReduxRouter extends Component {
 
     if (!store) {
       throw new Error(
-        'Redux store missing from context of <ReduxRouter>. Make sure you\'re'
+        'Redux store missing from context of <ReduxRouter>. Make sure you\'re '
       + 'using a <Provider>'
       );
     }
@@ -40,7 +40,7 @@ class ReduxRouter extends Component {
     if (!history || !routerStateSelector) {
       throw new Error(
         'Redux store not configured properly for <ReduxRouter>. Make sure '
-      + 'you\'re using the reduxRouter() store enhancer.'
+      + 'you\'re using the reduxReactRouter() store enhancer.'
     );
     }
 
