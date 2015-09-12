@@ -1,5 +1,5 @@
 import historyMiddleware from './historyMiddleware';
-import routerDidChange from './routerDidChange';
+import { routerDidChange } from './actionCreators';
 import routerStateEquals from './routerStateEquals';
 import { applyMiddleware } from 'redux';
 import { useRoutes, createRoutes } from 'react-router';
