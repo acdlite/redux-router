@@ -3,6 +3,7 @@ export ReduxRouter from './ReduxRouter';
 export reduxReactRouter from './reduxReactRouter';
 
 export {
+  historyAPI,
   pushState,
   replaceState,
   setState,
