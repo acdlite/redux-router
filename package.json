@@ -1,11 +1,15 @@
 {
   "name": "redux-react-router",
-  "version": "0.4.0",
+  "version": "1.0.0-beta1",
   "description": "Redux bindings for React Router — keep your router state inside your Redux Store.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "make test",
-    "prepublish": "make clean build"
+    "build": "babel src --out-dir lib",
+    "clean": "rimraf lib",
+    "lint": "eslint src",
+    "test": "mocha --compilers js:babel/register --recursive --require src/__tests__/init.js src/**/*-test.js",
+    "test-watch": "mocha --compilers js:babel/register --recursive --require src/__tests__/init.js -w src/**/*-test.js",
+    "prepublish": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,23 +26,27 @@
   "devDependencies": {
     "babel": "^5.6.14",
     "babel-core": "5.6.15",
-    "babel-eslint": "^3.1.20",
-    "babel-loader": "^5.3.1",
+    "babel-eslint": "^4.1.1",
+    "babel-loader": "^5.3.2",
     "chai": "^3.0.0",
-    "eslint": "^0.24.0",
-    "eslint-config-airbnb": "0.0.6",
-    "eslint-plugin-react": "^2.6.4",
+    "eslint": "^1.3.1",
+    "eslint-config-airbnb": "0.0.8",
+    "eslint-plugin-react": "^3.3.1",
+    "history": "^1.9.0",
     "jsdom": "^5.6.0",
     "mocha": "^2.2.5",
     "mocha-jsdom": "^1.0.0",
     "node-libs-browser": "^0.5.2",
-    "react": "0.14.0-beta1",
-    "react-dom": "0.14.0-beta1",
-    "react-hot-loader": "^1.2.8",
-    "react-router": "^1.0.0-beta3",
-    "redux": "1.0.0-alpha",
+    "react": "0.13.x",
+    "react-redux": "2.x",
+    "react-router": "1.0.0-rc1",
+    "redux": "2.x",
+    "redux-devtools": "^2.1.0",
+    "rimraf": "^2.4.3",
     "sinon": "^1.15.4",
-    "webpack": "^1.10.1"
+    "webpack": "^1.12.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "deep-equal": "^1.0.1"
+  }
 }
