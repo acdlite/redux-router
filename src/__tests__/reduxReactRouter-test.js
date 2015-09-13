@@ -173,17 +173,15 @@ describe('reduxRouter()', () => {
         router: routerStateReducer
       });
 
-      let dispatch;
-      let getState;
       const history = createHistory();
 
-      reduxReactRouter({
+      const store = reduxReactRouter({
         history,
-        getRoutes: (d, gs) => {
-          const requireAuth = (nextState, redirectTo) => {
-            dispatch(pushState({}, "/login"));
+        getRoutes: (dispatch) => {
+          const requireAuth = () => {
+            dispatch(pushState({}, '/login'));
           };
-          const routes = (
+          return (
             <Route path="/">
               <Route path="parent">
                 <Route path="child/:id" onEnter={requireAuth}/>
@@ -191,14 +189,11 @@ describe('reduxRouter()', () => {
               <Route path="login" />
             </Route>
           );
-          dispatch = d;
-          getState = gs;
-          return routes;
         }
       })(createStore)(reducer);
 
-      dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
-      expect(getState().router.location.pathname)
+      store.dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
+      expect(store.getState().router.location.pathname)
         .to.equal('/login');
     });
   });
