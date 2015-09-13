@@ -166,4 +166,41 @@ describe('reduxRouter()', () => {
         .to.equal('/parent/child/123');
     });
   });
+
+  describe('onEnter hook', () => {
+    it('sends user to the pushstate location', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      let dispatch;
+      let getState;
+      const history = createHistory();
+
+      reduxReactRouter({
+        history,
+        getRoutes: (d, gs) => {
+          const requireAuth = (nextState, redirectTo) => {
+            dispatch(pushState({}, "/login"));
+          };
+          const routes = (
+            <Route path="/">
+              <Route path="parent">
+                <Route path="child/:id" onEnter={requireAuth}/>
+              </Route>
+              <Route path="login" />
+            </Route>
+          );
+          dispatch = d;
+          getState = gs;
+          return routes;
+        }
+      })(createStore)(reducer);
+
+      dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
+      expect(getState().router.location.pathname)
+        .to.equal('/login');
+    });
+  });
+
 });
