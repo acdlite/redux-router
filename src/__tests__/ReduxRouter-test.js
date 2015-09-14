@@ -4,19 +4,18 @@ import {
   routerStateReducer
 } from '../';
 
-import React, { Component, PropTypes } from 'react/addons';
-import { Provider, connect } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
-import createHistory from 'history/lib/createMemoryHistory';
-import { Link, Route } from 'react-router';
-import jsdom from './jsdom';
-
-const {
+import React, { Component, PropTypes } from 'react';
+import {
   renderIntoDocument,
   findRenderedComponentWithType,
   findRenderedDOMComponentWithTag,
   Simulate
-} = React.addons.TestUtils;
+} from 'react-addons-test-utils';
+import { Provider, connect } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+import createHistory from 'history/lib/createMemoryHistory';
+import { Link, Route } from 'react-router';
+import jsdom from 'mocha-jsdom';
 
 @connect(state => state.router)
 class App extends Component {
@@ -78,9 +77,9 @@ describe('<ReduxRouter>', () => {
     history.pushState(null, '/parent/child/123?key=value');
 
     return renderIntoDocument(
-      <Provider store={store}>{() =>
+      <Provider store={store}>
         <ReduxRouter />
-      }</Provider>
+      </Provider>
     );
   }
 
