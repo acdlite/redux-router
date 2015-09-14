@@ -168,7 +168,7 @@ describe('reduxRouter()', () => {
   });
 
   describe('onEnter hook', () => {
-    it('sends user to the pushstate location', () => {
+    it('can perform redirects', () => {
       const reducer = combineReducers({
         router: routerStateReducer
       });
@@ -177,9 +177,9 @@ describe('reduxRouter()', () => {
 
       const store = reduxReactRouter({
         history,
-        getRoutes: (dispatch) => {
-          const requireAuth = () => {
-            dispatch(pushState({}, '/login'));
+        getRoutes: () => {
+          const requireAuth = (nextState, _replaceState) => {
+            _replaceState(null, '/login');
           };
           return (
             <Route path="/">

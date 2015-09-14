@@ -57,6 +57,7 @@ export default function reduxReactRouter(options) {
         onError(error);
         return;
       }
+
       const prevRouterState = routerStateSelector(store.getState());
 
       if (!routerStateEquals(prevRouterState, nextRouterState)) {
