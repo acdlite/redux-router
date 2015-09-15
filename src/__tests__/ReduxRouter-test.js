@@ -85,15 +85,16 @@ describe('<ReduxRouter>', () => {
 
     const history = createHistory();
     const store = reduxReactRouter({
-      history,
-      routes
+      history
     })(createStore)(reducer);
 
     history.pushState(null, '/parent/child/123?key=value');
 
     return renderIntoDocument(
       <Provider store={store}>
-        <ReduxRouter />
+        <ReduxRouter>
+          {routes}
+        </ReduxRouter>
       </Provider>
     );
   }

@@ -1,4 +1,4 @@
-import { ROUTER_DID_CHANGE, HISTORY_API } from './constants';
+import { ROUTER_DID_CHANGE, REPLACE_ROUTES, HISTORY_API } from './constants';
 
 /**
  * Action creator for signaling that the router has changed.
@@ -10,6 +10,18 @@ export function routerDidChange(state) {
   return {
     type: ROUTER_DID_CHANGE,
     payload: state
+  };
+}
+
+/**
+ * Action creator that replaces the current route config
+ * @private
+ * @param {Array<Route>|ReactElement} routes - New routes
+ */
+export function replaceRoutes(routes) {
+  return {
+    type: REPLACE_ROUTES,
+    payload: routes
   };
 }
 

@@ -4,5 +4,6 @@
 export const ROUTER_DID_CHANGE = '@@reduxReactRouter/routerDidChange';
 export const HISTORY_API = '@@reduxReactRouter/historyAPI';
 export const MATCH = '@@reduxReactRouter/match';
+export const REPLACE_ROUTES = '@@reduxReactRouter/replaceRoutes';
 
 export const ROUTER_STATE_SELECTOR = '@@reduxReactRouter/routerStateSelector';

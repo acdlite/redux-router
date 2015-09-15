@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RoutingContext } from 'react-router';
 import routerStateEquals from './routerStateEquals';
 import { ROUTER_STATE_SELECTOR } from './constants';
+import { replaceRoutes } from './actionCreators';
 
 function memoizeRouterStateSelector(selector) {
   let previousRouterState = null;
@@ -17,9 +18,31 @@ function memoizeRouterStateSelector(selector) {
   };
 }
 
+function getRoutesFromProps(props) {
+  return props.routes || props.children;
+}
+
 class ReduxRouter extends Component {
+  static propTypes = {
+    children: PropTypes.node
+  }
+
   static contextTypes = {
     store: PropTypes.object
+  }
+
+  constructor(props, context) {
+    super(props, context);
+    this.receiveRoutes(getRoutesFromProps(props));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.receiveRoutes(getRoutesFromProps(nextProps));
+  }
+
+  receiveRoutes(routes) {
+    const { store } = this.context;
+    store.dispatch(replaceRoutes(routes));
   }
 
   render() {
