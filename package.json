@@ -4,8 +4,8 @@
   "description": "Redux bindings for React Router — keep your router state inside your Redux Store.",
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel src --out-dir lib",
-    "clean": "rimraf lib",
+    "build": "babel src --out-dir lib && cp lib/server.js server.js",
+    "clean": "rimraf lib && rimraf server.js",
     "lint": "eslint src",
     "test": "mocha --compilers js:babel/register --recursive --require src/__tests__/init.js src/**/*-test.js",
     "test-watch": "mocha --compilers js:babel/register --recursive --require src/__tests__/init.js -w src/**/*-test.js",
@@ -39,6 +39,7 @@
     "node-libs-browser": "^0.5.2",
     "react": "0.14.0-rc1",
     "react-addons-test-utils": "^0.14.0-rc1",
+    "react-dom": "^0.14.0-rc1",
     "react-redux": "2.x",
     "react-router": "1.0.0-rc1",
     "redux": "3.x",

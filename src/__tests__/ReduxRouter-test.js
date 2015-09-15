@@ -4,7 +4,10 @@ import {
   routerStateReducer
 } from '../';
 
+import * as server from '../server';
+
 import React, { Component, PropTypes } from 'react';
+import { renderToString } from 'react-dom/server';
 import {
   renderIntoDocument,
   findRenderedComponentWithType,
@@ -20,11 +23,18 @@ import jsdom from 'mocha-jsdom';
 @connect(state => state.router)
 class App extends Component {
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    location: PropTypes.object
   }
 
   render() {
-    return <div>{this.props.children}</div>;
+    const { location, children } = this.props;
+    return (
+      <div>
+        <p>{`Pathname: ${location.pathname}`}</p>
+        {children}
+      </div>
+    );
   }
 }
 
@@ -51,11 +61,16 @@ class Child extends Component {
   }
 }
 
+function redirectOnEnter(pathname) {
+  return (routerState, replaceState) => replaceState(null, pathname);
+}
+
 const routes = (
-  <Route path="/" component={App}>
+  <Route path="/" component={App} onEnter={redirectOnEnter}>
     <Route path="parent" component={Parent}>
       <Route path="child/:id" component={Child} />
     </Route>
+    <Route path="redirect" onEnter={redirectOnEnter('/parent/child/850')} />
   </Route>
 );
 
@@ -104,5 +119,35 @@ describe('<ReduxRouter>', () => {
 
     Simulate.click(link);
     expect(child.props.location.pathname).to.equal('/parent/child/321');
+  });
+
+  describe('server-side rendering', () => {
+    it('works', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      const store = server.reduxReactRouter({ routes })(createStore)(reducer);
+      store.dispatch(server.match('/parent/child/850', () => {
+        const output = renderToString(
+          <Provider store={store}>
+            <ReduxRouter />
+          </Provider>
+        );
+        expect(output).to.match(/Pathname: \/parent\/child\/850/);
+      }));
+    });
+
+    it('handles redirects', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      const store = server.reduxReactRouter({ routes })(createStore)(reducer);
+      store.dispatch(server.match('/redirect', (error, redirectLocation) => {
+        expect(error).to.be.null;
+        expect(redirectLocation.pathname).to.equal('/parent/child/850');
+      }));
+    });
   });
 });
