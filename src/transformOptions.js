@@ -11,7 +11,6 @@ export default function transformOptions(next) {
   return options => createStore => (reducer, initialState) => {
     const {
       routes: baseRoutes,
-      getRoutes,
       createHistory: baseCreateHistory,
       history: baseHistory
     } = options;
@@ -19,16 +18,6 @@ export default function transformOptions(next) {
     const createHistory = !baseCreateHistory && baseHistory
       ? () => baseHistory
       : null;
-
-    let store;
-
-    function dispatch(action) {
-      return store.dispatch(action);
-    }
-
-    function getState() {
-      return store.getState();
-    }
 
     let childRoutes = [];
     let areChildRoutesResolved = false;
@@ -43,13 +32,9 @@ export default function transformOptions(next) {
       }
     }
 
-    let routes;
-    if (typeof getRoutes === 'function') {
-      routes = getRoutes(dispatch, getState);
-    } else if (baseRoutes) {
-      routes = baseRoutes;
-    } else {
-      routes = [{
+    const routes = baseRoutes
+      ? baseRoutes
+      : [{
         getChildRoutes: (location, cb) => {
           if (!areChildRoutesResolved) {
             childRoutesCallbacks.push(cb);
@@ -59,9 +44,8 @@ export default function transformOptions(next) {
           cb(null, childRoutes);
         }
       }];
-    }
 
-    store =  compose(
+    const store =  compose(
       applyMiddleware(
         replaceRoutesMiddleware(replaceRoutes)
       ),
