@@ -171,5 +171,4 @@ describe('reduxRouter()', () => {
         .to.equal('/login');
     });
   });
-
 });

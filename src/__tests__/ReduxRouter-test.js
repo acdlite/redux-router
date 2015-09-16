@@ -68,6 +68,7 @@ function redirectOnEnter(pathname) {
 const routes = (
   <Route path="/" component={App} onEnter={redirectOnEnter}>
     <Route path="parent" component={Parent}>
+      <Route path="child" component={Child} />
       <Route path="child/:id" component={Child} />
     </Route>
     <Route path="redirect" onEnter={redirectOnEnter('/parent/child/850')} />
@@ -149,6 +150,41 @@ describe('<ReduxRouter>', () => {
         expect(error).to.be.null;
         expect(redirectLocation.pathname).to.equal('/parent/child/850');
       }));
+    });
+  });
+
+  describe('dynamic route switching', () => {
+    it('updates routes wnen <ReduxRouter> receives new props', () => {
+      const newRoutes = (
+        <Route path="/parent/:route" component={App} />
+      );
+
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      const history = createHistory();
+      const store = reduxReactRouter({ history })(createStore)(reducer);
+
+      class RouterContainer extends Component {
+        state = { routes }
+
+        render() {
+          return (
+            <Provider store={store}>
+              <ReduxRouter routes={this.state.routes} />
+            </Provider>
+          );
+        }
+      }
+
+      history.pushState(null, '/parent/child');
+      const tree = renderIntoDocument(<RouterContainer />);
+
+
+      expect(store.getState().router.params).to.eql({});
+      tree.setState({ routes: newRoutes });
+      expect(store.getState().router.params).to.eql({ route: 'child' });
     });
   });
 });

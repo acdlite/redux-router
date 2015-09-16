@@ -12,8 +12,11 @@ export default function transformOptions(next) {
     const {
       routes: baseRoutes,
       createHistory: baseCreateHistory,
-      history: baseHistory
-    } = options;
+      history: baseHistory,
+      routerStateSelector
+    } = { ...defaults, ...options };
+
+    let store;
 
     const createHistory = !baseCreateHistory && baseHistory
       ? () => baseHistory
@@ -25,6 +28,12 @@ export default function transformOptions(next) {
 
     function replaceRoutes(r) {
       childRoutes = createRoutes(r);
+
+      const routerState = routerStateSelector(store.getState());
+      if (routerState) {
+        const { state, pathname, query } = routerState.location;
+        store.history.replaceState(state, pathname, query);
+      }
 
       if (!areChildRoutesResolved) {
         areChildRoutesResolved = true;
@@ -45,7 +54,7 @@ export default function transformOptions(next) {
         }
       }];
 
-    const store =  compose(
+    store = compose(
       applyMiddleware(
         replaceRoutesMiddleware(replaceRoutes)
       ),
