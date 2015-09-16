@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { createStore, compose, combineReducers } from 'redux';
 
 import {
@@ -15,6 +16,10 @@ import createHistory from 'history/lib/createBrowserHistory';
 
 @connect(state => ({ routerState: state.router }))
 class App extends Component {
+  static propTypes = {
+    children: PropTypes.node
+  }
+
   render() {
     const links = [
       '/',
@@ -38,6 +43,10 @@ class App extends Component {
 }
 
 class Parent extends Component {
+  static propTypes = {
+    children: PropTypes.node
+  }
+
   render() {
     return (
       <div>
@@ -58,24 +67,12 @@ class Child extends Component {
   }
 }
 
-const routes = (
-  <Route path="/" component={App}>
-    <Route path="parent" component={Parent}>
-      <Route path="child" component={Child} />
-      <Route path="child/:id" component={Child} />
-    </Route>
-  </Route>
-);
-
 const reducer = combineReducers({
   router: routerStateReducer
 });
 
 const store = compose(
-  reduxReactRouter({
-    routes,
-    createHistory
-  }),
+  reduxReactRouter({ createHistory }),
   devTools()
 )(createStore)(reducer);
 
@@ -83,9 +80,16 @@ class Root extends Component {
   render() {
     return (
       <div>
-        <Provider store={store}>{() =>
-          <ReduxRouter />
-        }</Provider>
+        <Provider store={store}>
+          <ReduxRouter>
+            <Route path="/" component={App}>
+              <Route path="parent" component={Parent}>
+                <Route path="child" component={Child} />
+                <Route path="child/:id" component={Child} />
+              </Route>
+            </Route>
+          </ReduxRouter>
+        </Provider>
         <DebugPanel top right bottom>
           <DevTools store={store} monitor={LogMonitor} />
         </DebugPanel>
@@ -94,4 +98,4 @@ class Root extends Component {
   }
 }
 
-React.render(<Root />, document.getElementById('root'));
+ReactDOM.render(<Root />, document.getElementById('root'));

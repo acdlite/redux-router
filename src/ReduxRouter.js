@@ -41,6 +41,8 @@ class ReduxRouter extends Component {
   }
 
   receiveRoutes(routes) {
+    if (!routes) return;
+
     const { store } = this.context;
     store.dispatch(replaceRoutes(routes));
   }
