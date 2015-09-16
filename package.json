@@ -4,7 +4,7 @@
   "description": "Redux bindings for React Router — keep your router state inside your Redux Store.",
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel src --out-dir lib && cp lib/server.js server.js",
+    "build": "babel src --out-dir lib && cp lib/serverModule.js server.js",
     "clean": "rimraf lib && rimraf server.js",
     "lint": "eslint src",
     "test": "mocha --compilers js:babel/register --recursive --require src/__tests__/init.js src/**/*-test.js",
