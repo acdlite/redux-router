@@ -140,6 +140,21 @@ describe('<ReduxRouter>', () => {
       }));
     });
 
+    it('throws if routes are not passed to store enhancer', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      expect(() => server.reduxReactRouter()(createStore)(reducer))
+        .to.throw(
+          'When rendering on the server, routes must be passed to the '
+        + 'reduxReactRouter() store enhancer; routes as a prop or as children '
+        + 'of <ReduxRouter> is not supported. To deal with circular '
+        + 'dependencies between routes and the store, use the '
+        + 'option getRoutes(store).'
+        );
+    });
+
     it('handles redirects', () => {
       const reducer = combineReducers({
         router: routerStateReducer
