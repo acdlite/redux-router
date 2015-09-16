@@ -97,9 +97,9 @@ A component that renders a React Router app using router state from a Redux stor
 
 An action creator for `history.pushState()`.
 
-### `replaceState(pathname, query, state)`
+### `replaceState(state, pathname, query)`
 
-An action creator for `history.pushState()`.
+An action creator for `history.replaceState()`.
 
 ## Bonus: Reacting to state changes with redux-rx
 
