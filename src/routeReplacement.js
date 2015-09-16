@@ -6,6 +6,7 @@ export default function routeReplacement(next) {
   return options => createStore => (reducer, initialState) => {
     const {
       routes: baseRoutes,
+      getRoutes,
       routerStateSelector
     } = options;
 
@@ -30,9 +31,16 @@ export default function routeReplacement(next) {
       }
     }
 
-    const routes = baseRoutes
-      ? baseRoutes
-      : [{
+    let routes;
+    if (baseRoutes) {
+      routes = baseRoutes;
+    } else if (getRoutes) {
+      routes = getRoutes({
+        dispatch: action => store.dispatch(action),
+        getState: () => store.getState()
+      });
+    } else {
+      routes = [{
         getChildRoutes: (location, cb) => {
           if (!areChildRoutesResolved) {
             childRoutesCallbacks.push(cb);
@@ -42,6 +50,7 @@ export default function routeReplacement(next) {
           cb(null, childRoutes);
         }
       }];
+    }
 
     store = compose(
       applyMiddleware(

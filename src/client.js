@@ -5,7 +5,7 @@ import reduxReactRouter from './reduxReactRouter';
 import useDefaults from './useDefaults';
 import routeReplacement from './routeReplacement';
 
-function client(next) {
+function historySynchronization(next) {
   return options => createStore => (reducer, initialState) => {
     const { onError, routerStateSelector } = options;
     const store = next(options)(createStore)(reducer, initialState);
@@ -47,5 +47,5 @@ function client(next) {
 export default compose(
   useDefaults,
   routeReplacement,
-  client
+  historySynchronization
 )(reduxReactRouter);

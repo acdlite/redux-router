@@ -140,6 +140,29 @@ describe('reduxRouter()', () => {
     expect(store.getState().string).to.equal('Unidirectional');
   });
 
+  describe('getRoutes()', () => {
+    it('is passed dispatch and getState', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      let store;
+      const history = createHistory();
+
+      reduxReactRouter({
+        history,
+        getRoutes: s => {
+          store = s;
+          return routes;
+        }
+      })(createStore)(reducer);
+
+      store.dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
+      expect(store.getState().router.location.pathname)
+        .to.equal('/parent/child/123');
+    });
+  });
+
   describe('onEnter hook', () => {
     it('can perform redirects', () => {
       const reducer = combineReducers({
