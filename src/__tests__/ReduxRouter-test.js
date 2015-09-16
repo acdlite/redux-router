@@ -124,7 +124,7 @@ describe('<ReduxRouter>', () => {
   });
 
   describe('server-side rendering', () => {
-    it('works', () => {
+    it('works', (done) => {
       const reducer = combineReducers({
         router: routerStateReducer
       });
@@ -137,10 +137,30 @@ describe('<ReduxRouter>', () => {
           </Provider>
         );
         expect(output).to.match(/Pathname: \/parent\/child\/850/);
+        done();
       }));
     });
 
-    it('handles redirects', () => {
+    it('works with dynamic routes', (done) => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      const store = server.reduxReactRouter()(createStore)(reducer);
+      store.dispatch(server.match('/parent/child/850', () => {
+        const output = renderToString(
+          <Provider store={store}>
+            <ReduxRouter>
+               {routes}
+            </ReduxRouter>
+          </Provider>
+        );
+        expect(output).to.match(/Pathname: \/parent\/child\/850/);
+        done();
+      }));
+    });
+
+    it('handles redirects', (done) => {
       const reducer = combineReducers({
         router: routerStateReducer
       });
@@ -149,6 +169,7 @@ describe('<ReduxRouter>', () => {
       store.dispatch(server.match('/redirect', (error, redirectLocation) => {
         expect(error).to.be.null;
         expect(redirectLocation.pathname).to.equal('/parent/child/850');
+        done();
       }));
     });
   });
