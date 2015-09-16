@@ -1,7 +1,8 @@
 import { compose, applyMiddleware } from 'redux';
 import createMemoryHistory from 'history/lib/createMemoryHistory';
 import baseReduxReactRouter from './reduxReactRouter';
-import transformOptions from './transformOptions';
+import useDefaults from './useDefaults';
+import routeReplacement from './routeReplacement';
 import matchMiddleware from './matchMiddleware';
 import { MATCH } from './constants';
 
@@ -31,6 +32,7 @@ export function match(url, callback) {
 }
 
 export const reduxReactRouter = compose(
-  transformOptions,
+  useDefaults,
+  routeReplacement,
   server
 )(baseReduxReactRouter);

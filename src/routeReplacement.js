@@ -2,25 +2,14 @@ import { applyMiddleware, compose } from 'redux';
 import { createRoutes } from 'react-router';
 import replaceRoutesMiddleware from './replaceRoutesMiddleware';
 
-const defaults = {
-  onError: error => { throw error; },
-  routerStateSelector: state => state.router
-};
-
-export default function transformOptions(next) {
+export default function routeReplacement(next) {
   return options => createStore => (reducer, initialState) => {
     const {
       routes: baseRoutes,
-      createHistory: baseCreateHistory,
-      history: baseHistory,
       routerStateSelector
-    } = { ...defaults, ...options };
+    } = options;
 
     let store;
-
-    const createHistory = !baseCreateHistory && baseHistory
-      ? () => baseHistory
-      : null;
 
     let childRoutes = [];
     let areChildRoutesResolved = false;
@@ -59,10 +48,8 @@ export default function transformOptions(next) {
         replaceRoutesMiddleware(replaceRoutes)
       ),
       next({
-        ...defaults,
         ...options,
-        routes: createRoutes(routes),
-        createHistory
+        routes: createRoutes(routes)
       })
     )(createStore)(reducer, initialState);
 

@@ -95,10 +95,8 @@ describe('reduxRouter()', () => {
       router: routerStateReducer
     });
 
-    const history = createHistory();
-
     const store = reduxReactRouter({
-      history,
+      createHistory,
       routes
     })(createStore)(reducer);
 

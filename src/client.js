@@ -2,7 +2,8 @@ import { compose } from 'redux';
 import { routerDidChange } from './actionCreators';
 import routerStateEquals from './routerStateEquals';
 import reduxReactRouter from './reduxReactRouter';
-import transformOptions from './transformOptions';
+import useDefaults from './useDefaults';
+import routeReplacement from './routeReplacement';
 
 function client(next) {
   return options => createStore => (reducer, initialState) => {
@@ -44,6 +45,7 @@ function client(next) {
 }
 
 export default compose(
-  transformOptions,
+  useDefaults,
+  routeReplacement,
   client
 )(reduxReactRouter);
