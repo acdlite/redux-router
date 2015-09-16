@@ -16,6 +16,7 @@ export default function routerStateReducer(state = null, action) {
   case ROUTER_DID_CHANGE:
     return action.payload;
   case REPLACE_ROUTES:
+    if (!state) return state;
     return {
       ...state,
       [DOES_NEED_REFRESH]: true
