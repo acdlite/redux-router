@@ -1,4 +1,8 @@
-import { ROUTER_DID_CHANGE } from './constants';
+import {
+  ROUTER_DID_CHANGE,
+  REPLACE_ROUTES,
+  DOES_NEED_REFRESH
+} from './constants';
 
 /**
  * Reducer of ROUTER_DID_CHANGE actions. Returns a state object
@@ -8,7 +12,15 @@ import { ROUTER_DID_CHANGE } from './constants';
  * @return {Object} New state
  */
 export default function routerStateReducer(state = null, action) {
-  return action.type === ROUTER_DID_CHANGE
-    ? action.payload
-    : state;
+  switch (action.type) {
+  case ROUTER_DID_CHANGE:
+    return action.payload;
+  case REPLACE_ROUTES:
+    return {
+      ...state,
+      [DOES_NEED_REFRESH]: true
+    };
+  default:
+    return state;
+  }
 }

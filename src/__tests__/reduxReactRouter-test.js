@@ -95,10 +95,8 @@ describe('reduxRouter()', () => {
       router: routerStateReducer
     });
 
-    const history = createHistory();
-
     const store = reduxReactRouter({
-      history,
+      createHistory,
       routes
     })(createStore)(reducer);
 
@@ -142,31 +140,6 @@ describe('reduxRouter()', () => {
     expect(store.getState().string).to.equal('Unidirectional');
   });
 
-  describe('getRoutes()', () => {
-    it('is passed dispatch and getState', () => {
-      const reducer = combineReducers({
-        router: routerStateReducer
-      });
-
-      let dispatch;
-      let getState;
-      const history = createHistory();
-
-      reduxReactRouter({
-        history,
-        getRoutes: (d, gs) => {
-          dispatch = d;
-          getState = gs;
-          return routes;
-        }
-      })(createStore)(reducer);
-
-      dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
-      expect(getState().router.location.pathname)
-        .to.equal('/parent/child/123');
-    });
-  });
-
   describe('onEnter hook', () => {
     it('can perform redirects', () => {
       const reducer = combineReducers({
@@ -175,21 +148,20 @@ describe('reduxRouter()', () => {
 
       const history = createHistory();
 
+      const requireAuth = (nextState, _replaceState) => {
+        _replaceState(null, '/login');
+      };
+
       const store = reduxReactRouter({
         history,
-        getRoutes: () => {
-          const requireAuth = (nextState, _replaceState) => {
-            _replaceState(null, '/login');
-          };
-          return (
-            <Route path="/">
-              <Route path="parent">
-                <Route path="child/:id" onEnter={requireAuth}/>
-              </Route>
-              <Route path="login" />
+        routes: (
+          <Route path="/">
+            <Route path="parent">
+              <Route path="child/:id" onEnter={requireAuth}/>
             </Route>
-          );
-        }
+            <Route path="login" />
+          </Route>
+        )
       })(createStore)(reducer);
 
       store.dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
@@ -197,5 +169,4 @@ describe('reduxRouter()', () => {
         .to.equal('/login');
     });
   });
-
 });
