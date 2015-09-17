@@ -1,10 +1,10 @@
 redux-react-router
 ==================
 
-[![build status](https://img.shields.io/travis/acdlite/redux-react-router/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-react-router)
+[![build status](https://img.shields.io/travis/rackt/redux-react-router/master.svg?style=flat-square)](https://travis-ci.org/rackt/redux-react-router)
 [![npm version](https://img.shields.io/npm/v/redux-react-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-react-router)
 
-**Documentation is in progress. Please refer to the [basic example](https://github.com/acdlite/redux-react-router/tree/master/examples/basic) in the meantime.**
+**Documentation is in progress. Please refer to the [basic example](https://github.com/rackt/redux-react-router/tree/master/examples/basic) in the meantime.**
 
 Redux bindings for React Router.
 
