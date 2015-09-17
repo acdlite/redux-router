@@ -101,7 +101,7 @@ describe('reduxRouter()', () => {
       routes
     })(createStore)(reducer);
 
-    store.dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
+    store.dispatch(pushState(null, '/parent/child/123', { key: 'value' }));
     expect(store.getState().router.location.pathname)
       .to.equal('/parent/child/123');
     expect(store.getState().router.location.query).to.eql({ key: 'value' });
@@ -158,7 +158,7 @@ describe('reduxRouter()', () => {
         }
       })(createStore)(reducer);
 
-      store.dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
+      store.dispatch(pushState(null, '/parent/child/123', { key: 'value' }));
       expect(store.getState().router.location.pathname)
         .to.equal('/parent/child/123');
     });
@@ -188,7 +188,7 @@ describe('reduxRouter()', () => {
         )
       })(createStore)(reducer);
 
-      store.dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
+      store.dispatch(pushState(null, '/parent/child/123', { key: 'value' }));
       expect(store.getState().router.location.pathname)
         .to.equal('/login');
     });
