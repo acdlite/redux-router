@@ -2,7 +2,8 @@ import {
   reduxReactRouter,
   routerStateReducer,
   pushState,
-  replaceState
+  replaceState,
+  isActive
 } from '../';
 
 import { createStore, combineReducers } from 'redux';
@@ -190,6 +191,26 @@ describe('reduxRouter()', () => {
       store.dispatch(pushState(null, '/parent/child/123', { key: 'value'}));
       expect(store.getState().router.location.pathname)
         .to.equal('/login');
+    });
+
+    describe('isActive', () => {
+      it('creates a selector for whether a pathname/query pair is active', () => {
+        const reducer = combineReducers({
+          router: routerStateReducer
+        });
+
+        const history = createHistory();
+
+        const store = reduxReactRouter({
+          history,
+          routes
+        })(createStore)(reducer);
+
+        const activeSelector = isActive('/parent', { key: 'value' });
+        expect(activeSelector(store.getState().router)).to.be.false;
+        history.pushState(null, '/parent?key=value');
+        expect(activeSelector(store.getState().router)).to.be.true;
+      });
     });
   });
 });
