@@ -1,10 +1,10 @@
-redux-react-router
-==================
+redux-router
+============
 
-[![build status](https://img.shields.io/travis/rackt/redux-react-router/master.svg?style=flat-square)](https://travis-ci.org/rackt/redux-react-router)
-[![npm version](https://img.shields.io/npm/v/redux-react-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-react-router)
+[![build status](https://img.shields.io/travis/rackt/redux-router/master.svg?style=flat-square)](https://travis-ci.org/rackt/redux-router)
+[![npm version](https://img.shields.io/npm/v/redux-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-router)
 
-**Documentation is in progress. Please refer to the [basic example](https://github.com/rackt/redux-react-router/tree/master/examples/basic) in the meantime.**
+**Documentation is in progress. Please refer to the [basic example](https://github.com/rackt/redux-router/tree/master/examples/basic) in the meantime.**
 
 Redux bindings for React Router.
 
@@ -15,7 +15,7 @@ Redux bindings for React Router.
 - Works with time travel feature of Redux Devtools!
 
 ```js
-npm install --save redux-react-router
+npm install --save redux-router
 ```
 
 ## Why
@@ -32,7 +32,7 @@ This library allows you to keep your router state **inside your Redux store**. S
 import React from 'react';
 import { combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import { reduxReactRouter, routerStateReducer, ReduxRouter } from 'redux-react-router';
+import { reduxReactRouter, routerStateReducer, ReduxRouter } from 'redux-router';
 
 // Configure routes like normal
 const routes = (
@@ -64,7 +64,7 @@ const store = compose(
 
 // Elsewhere, in a component module...
 import { connect } from 'react-redux';
-import { pushState } from 'redux-react-router';
+import { pushState } from 'redux-router';
 
 connect(
   // Use a selector to subscribe to state
@@ -77,7 +77,7 @@ connect(
 
 ### Works with Redux Devtools (and other external state changes)
 
-redux-react-router will notice if the router state in your Redux store changes from an external source other than the router itself — e.g. the Redux Devtools — and trigger a transition accordingly!
+redux-router will notice if the router state in your Redux store changes from an external source other than the router itself — e.g. the Redux Devtools — and trigger a transition accordingly!
 
 ## API
 

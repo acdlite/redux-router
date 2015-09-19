@@ -1,5 +1,5 @@
 {
-  "name": "redux-react-router",
+  "name": "redux-router",
   "version": "1.0.0-beta3",
   "description": "Redux bindings for React Router — keep your router state inside your Redux Store.",
   "main": "lib/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/rackt/redux-react-router.git"
+    "url": "git://github.com/rackt/redux-router.git"
   },
   "keywords": [
     "redux",
