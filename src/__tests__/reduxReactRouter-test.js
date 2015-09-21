@@ -8,7 +8,7 @@ import {
 
 import { createStore, combineReducers } from 'redux';
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, Redirect } from 'react-router';
 import createHistory from 'history/lib/createMemoryHistory';
 import sinon from 'sinon';
 
@@ -192,6 +192,39 @@ describe('reduxRouter()', () => {
       })(createStore)(reducer);
 
       store.dispatch(pushState(null, '/parent/child/123', { key: 'value' }));
+      expect(store.getState().router.location.pathname)
+        .to.equal('/login');
+    });
+
+    it('works with onEnter and Redirect', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      let store;
+      const history = createHistory();
+
+      reduxReactRouter({
+        history,
+        getRoutes: s => {
+          store = s;
+          function notNeedAuth(nextState, redirectTo) {
+            if (s.getState().user) {
+              redirectTo(null, '/parent/child/123');
+            }
+          }
+          return (
+            <Route>
+              <Redirect from="/" to="/login" />
+              <Route path="/login" onEnter={notNeedAuth} />
+              <Route path="/parent">
+                <Route path="child/:id" />
+              </Route>
+            </Route>
+          );
+        }
+      })(createStore)(reducer, { user: 'test_user' });
+
       expect(store.getState().router.location.pathname)
         .to.equal('/login');
     });
