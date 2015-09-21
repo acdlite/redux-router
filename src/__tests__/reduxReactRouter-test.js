@@ -162,6 +162,39 @@ describe('reduxRouter()', () => {
       expect(store.getState().router.location.pathname)
         .to.equal('/parent/child/123');
     });
+
+    it('works with onEnter', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      let store;
+      const history = createHistory();
+
+      reduxReactRouter({
+        history,
+        getRoutes: s => {
+          store = s;
+          function requireAuth(nextState, redirectTo) {
+            if (!s.getState().user) {
+              redirectTo(null, '/login');
+            }
+          }
+          return (
+            <Route path="/">
+              <Route path="login"/>
+              <Route path="parent">
+                <Route path="child/:id" onEnter={requireAuth}/>
+              </Route>
+            </Route>
+          );
+        }
+      })(createStore)(reducer);
+
+      store.dispatch(pushState(null, '/parent/child/123', { key: 'value' }));
+      expect(store.getState().router.location.pathname)
+        .to.equal('/login');
+    });
   });
 
   describe('onEnter hook', () => {
