@@ -9,5 +9,8 @@
   },
   "author": "Andrew Clark <acdlite@me.com>",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "react-dom": "^0.14.0-rc1",
+    "redux-router": "^0.1.0"
+  }
 }

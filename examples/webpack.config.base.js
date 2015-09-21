@@ -1,6 +1,6 @@
 import path from 'path';
 
-const PROJECT_SRC = path.resolve(__dirname, '../src');
+// const PROJECT_SRC = path.resolve(__dirname, '../src');
 
 export default {
   module: {
@@ -10,13 +10,13 @@ export default {
       exclude: path.resolve(__dirname, 'node_modules'),
       include: [
         path.resolve(__dirname),
-        PROJECT_SRC
+        // PROJECT_SRC
       ]
     }]
   },
   resolve: {
     alias: {
-      'redux-react-router': PROJECT_SRC
+      // 'redux-router': PROJECT_SRC
     },
     extensions: ['', '.js']
   }

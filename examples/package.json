@@ -15,10 +15,19 @@
     "babel-runtime": "^5.8.20",
     "express": "^4.13.3",
     "lodash": "^3.10.1",
-    "react-transform-webpack-hmr": "^0.1.4",
-    "redux": "^2.0.0",
+    "react-transform-hmr": "^0.1.4",
     "webpack": "^1.12.1",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.0.0"
+  },
+  "dependencies": {
+    "history": "^1.9.1",
+    "react": "^0.14.0-rc1",
+    "react-dom": "^0.14.0-rc1",
+    "react-redux": "^2.1.2",
+    "react-router": "^1.0.0-rc1",
+    "redux": "^2.0.0",
+    "redux-devtools": "^2.1.2",
+    "redux-router": "^1.0.0-beta3"
   }
 }
