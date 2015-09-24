@@ -14,8 +14,11 @@ Redux bindings for React Router.
 - Serialize and deserialize router state.
 - Works with time travel feature of Redux Devtools!
 
+##Installation
+
+For now, to install you have to specify version.
 ```js
-npm install --save redux-router
+npm install --save redux-router@1.0.0-beta3
 ```
 
 ## Why
