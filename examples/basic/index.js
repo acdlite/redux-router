@@ -1,12 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { createStore, compose, combineReducers } from 'redux';
 
-import {
-  ReduxRouter,
-  routerStateReducer,
-  reduxReactRouter
-} from 'redux-react-router';
+import { ReduxRouter, routerStateReducer, reduxReactRouter } from 'redux-router';
 
 import { Route, Link } from 'react-router';
 import { Provider, connect } from 'react-redux';
@@ -14,12 +9,8 @@ import { devTools } from 'redux-devtools';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 import createHistory from 'history/lib/createBrowserHistory';
 
-@connect(state => ({ routerState: state.router }))
+connect(state => ({ routerState: state.router }))
 class App extends Component {
-  static propTypes = {
-    children: PropTypes.node
-  }
-
   render() {
     const links = [
       '/',
@@ -41,12 +32,11 @@ class App extends Component {
     );
   }
 }
+App.propTypes = {
+  children: PropTypes.node
+}
 
 class Parent extends Component {
-  static propTypes = {
-    children: PropTypes.node
-  }
-
   render() {
     return (
       <div>
@@ -55,6 +45,9 @@ class Parent extends Component {
       </div>
     );
   }
+}
+Parent.propTypes = {
+  children: PropTypes.node
 }
 
 class Child extends Component {
@@ -77,18 +70,23 @@ const store = compose(
 )(createStore)(reducer);
 
 class Root extends Component {
+  createRoutes() {
+    return (
+      <ReduxRouter>
+        <Route path="/" component={App}>
+          <Route path="parent" component={Parent}>
+            <Route path="child" component={Child} />
+            <Route path="child/:id" component={Child} />
+          </Route>
+        </Route>
+      </ReduxRouter>
+    );
+  }
   render() {
     return (
       <div>
         <Provider store={store}>
-          <ReduxRouter>
-            <Route path="/" component={App}>
-              <Route path="parent" component={Parent}>
-                <Route path="child" component={Child} />
-                <Route path="child/:id" component={Child} />
-              </Route>
-            </Route>
-          </ReduxRouter>
+        { this.createRoutes }
         </Provider>
         <DebugPanel top right bottom>
           <DevTools store={store} monitor={LogMonitor} />
@@ -98,4 +96,4 @@ class Root extends Component {
   }
 }
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+React.render(<Root />, document.body);
