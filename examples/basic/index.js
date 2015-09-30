@@ -96,4 +96,4 @@ class Root extends Component {
   }
 }
 
-React.render(<Root />, document.body);
+React.render(<Root />, document.getElementById('root'));
