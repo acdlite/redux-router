@@ -1,5 +1,5 @@
 {
-  "name": "redux-router-basic-example",
+  "name": "redux-router-server-rendering-example",
   "version": "0.1.0",
   "description": "",
   "main": "server.js",
