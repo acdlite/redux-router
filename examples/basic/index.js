@@ -6,7 +6,7 @@ import {
   ReduxRouter,
   routerStateReducer,
   reduxReactRouter
-} from 'redux-react-router';
+} from 'redux-router';
 
 import { Route, Link } from 'react-router';
 import { Provider, connect } from 'react-redux';
