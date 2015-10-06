@@ -79,7 +79,7 @@ const routes = (
 describe('<ReduxRouter>', () => {
   jsdom();
 
-  function renderApp() {
+  function renderApp(route = '/parent/child/123?key=value') {
     const reducer = combineReducers({
       router: routerStateReducer
     });
@@ -89,7 +89,7 @@ describe('<ReduxRouter>', () => {
       history
     })(createStore)(reducer);
 
-    history.pushState(null, '/parent/child/123?key=value');
+    history.pushState(null, route);
 
     return renderIntoDocument(
       <Provider store={store}>
@@ -99,6 +99,13 @@ describe('<ReduxRouter>', () => {
       </Provider>
     );
   }
+
+  it('persists a hash fragment in the URL', () => {
+    const tree = renderApp('/parent/child/123#hash');
+    const child = findRenderedComponentWithType(tree, Child);
+    expect(child.props.location.pathname).to.equal('/parent/child/123');
+    expect(child.props.location.hash).to.equal('#hash');
+  });
 
   it('renders a React Router app using state from a Redux <Provider>', () => {
     const tree = renderApp();

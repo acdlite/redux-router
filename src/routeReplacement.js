@@ -21,7 +21,8 @@ export default function routeReplacement(next) {
 
       const routerState = routerStateSelector(store.getState());
       if (routerState) {
-        const { state, pathname, query } = routerState.location;
+        let { state, pathname, query } = routerState.location;
+        if(routerState.location.hasOwnProperty('hash')) pathname = `${pathname}${routerState.location.hash}`
         store.history.replaceState(state, pathname, query);
       }
 
