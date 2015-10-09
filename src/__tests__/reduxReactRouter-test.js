@@ -5,6 +5,7 @@ import {
   replaceState,
   isActive
 } from '../';
+import { REPLACE_ROUTES } from '../constants';
 
 import { createStore, combineReducers } from 'redux';
 import React from 'react';
@@ -139,6 +140,35 @@ describe('reduxRouter()', () => {
     store.dispatch({ type: APPEND_STRING, string: 'Uni' });
     store.dispatch({ type: APPEND_STRING, string: 'directional' });
     expect(store.getState().string).to.equal('Unidirectional');
+  });
+
+  it('stores the latest state in routerState', () => {
+    const reducer = combineReducers({
+      router: routerStateReducer
+    });
+
+    const history = createHistory();
+
+    const store = reduxReactRouter({
+      history,
+      routes
+    })(createStore)(reducer);
+
+    let historyState;
+    history.listen(s => {
+      historyState = s;
+    });
+
+    history.pushState(null, '/parent');
+
+    store.dispatch({
+      type: REPLACE_ROUTES
+    });
+
+    historyState = null;
+
+    store.dispatch({ type: 'RANDOM_ACTION' });
+    expect(historyState).to.equal(null);
   });
 
   describe('getRoutes()', () => {

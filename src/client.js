@@ -28,16 +28,16 @@ function historySynchronization(next) {
 
     store.subscribe(() => {
       const nextRouterState = routerStateSelector(store.getState());
+      const currentRouterState = routerState;
+      routerState = nextRouterState;
 
       if (
         nextRouterState &&
-        !routerStateEquals(routerState, nextRouterState)
+        !routerStateEquals(currentRouterState, nextRouterState)
       ) {
         const { state, pathname, query } = nextRouterState.location;
         history.replaceState(state, pathname, query);
       }
-
-      routerState = nextRouterState;
     });
 
     return store;
