@@ -1,4 +1,4 @@
-import createLocation from 'history/lib/createLocation';
+import { createLocation } from 'history';
 import { routerDidChange } from './actionCreators';
 import { MATCH } from './constants';
 
