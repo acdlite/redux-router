@@ -99,7 +99,7 @@ An action creator for `history.pushState()`. (https://developer.mozilla.org/en-U
 
 Basic example (let say we are at `http://example.com/order/new`):
 ```js
-dispatch(pushState(null, order.id.toString(), ''))
+dispatch(pushState(null, '/orders/' + order.id.toString(), ''))
 ```
 Provided that `order.id` is set and equals `123` it will change browser address bar to `http://example.com/order/123` and appends this URL to the browser history (without reloading the page).
 
