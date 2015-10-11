@@ -130,13 +130,14 @@ describe('<ReduxRouter>', () => {
       });
 
       const store = server.reduxReactRouter({ routes })(createStore)(reducer);
-      store.dispatch(server.match('/parent/child/850', () => {
+      store.dispatch(server.match('/parent/child/850?key=value', (err, redirectLocation, routerState) => {
         const output = renderToString(
           <Provider store={store}>
             <ReduxRouter />
           </Provider>
         );
         expect(output).to.match(/Pathname: \/parent\/child\/850/);
+        expect(routerState.location.query).to.eql({ key: 'value' });
       }));
     });
 
