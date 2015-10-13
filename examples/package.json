@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "basic": "cd basic && npm start"
   },
   "author": "Andrew Clark <acdlite@me.com>",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "babel-runtime": "^5.8.20",
     "express": "^4.13.3",
     "lodash": "^3.10.1",
-    "react-transform-webpack-hmr": "^0.1.4",
+    "react-transform-hmr": "^0.1.4",
     "redux": "^2.0.0",
     "webpack": "^1.12.1",
     "webpack-dev-middleware": "^1.2.0",
