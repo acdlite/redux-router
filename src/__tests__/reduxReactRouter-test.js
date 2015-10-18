@@ -34,10 +34,17 @@ describe('reduxRouter()', () => {
       routes
     })(createStore)(reducer);
 
+    const historySpy = sinon.spy();
+    history.listen(s => historySpy());
+    
+    expect(historySpy.callCount).to.equal(1);
+
     history.pushState(null, '/parent');
     expect(store.getState().router.location.pathname).to.equal('/parent');
+    expect(historySpy.callCount).to.equal(2);
 
     history.pushState(null, '/parent/child/123?key=value');
+    expect(historySpy.callCount).to.equal(3);
     expect(store.getState().router.location.pathname)
       .to.equal('/parent/child/123');
     expect(store.getState().router.location.query).to.eql({ key: 'value' });
@@ -71,9 +78,13 @@ describe('reduxRouter()', () => {
     }
 
     const history = createHistory();
+    const historySpy = sinon.spy();
 
     let historyState;
-    history.listen(s => historyState = s);
+    history.listen(s => {
+      historySpy();
+      historyState = s;
+    });
 
     const store = reduxReactRouter({
       history,
@@ -81,6 +92,7 @@ describe('reduxRouter()', () => {
     })(createStore)(reducer);
 
     expect(reducerSpy.callCount).to.equal(2);
+    expect(historySpy.callCount).to.equal(1);
 
     store.dispatch({
       type: EXTERNAL_STATE_CHANGE,
@@ -88,6 +100,7 @@ describe('reduxRouter()', () => {
     });
 
     expect(reducerSpy.callCount).to.equal(4);
+    expect(historySpy.callCount).to.equal(2);
     expect(historyState.pathname).to.equal('/parent/child/123');
     expect(historyState.search).to.equal('?key=value');
   });

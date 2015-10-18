@@ -19,9 +19,8 @@ function historySynchronization(next) {
         return;
       }
 
-      const prevRouterState = routerStateSelector(store.getState());
-
-      if (!routerStateEquals(prevRouterState, nextRouterState)) {
+      if (!routerStateEquals(routerState, nextRouterState)) {
+        routerState = nextRouterState;
         store.dispatch(routerDidChange(nextRouterState));
       }
     });
