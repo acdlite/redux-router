@@ -4,6 +4,7 @@ import routerStateEquals from './routerStateEquals';
 import reduxReactRouter from './reduxReactRouter';
 import useDefaults from './useDefaults';
 import routeReplacement from './routeReplacement';
+import toPlainObject from './toPlainObject';
 
 function historySynchronization(next) {
   return options => createStore => (reducer, initialState) => {
@@ -19,7 +20,7 @@ function historySynchronization(next) {
         return;
       }
 
-      const prevRouterState = routerStateSelector(store.getState());
+      const prevRouterState = routerStateSelector(toPlainObject(store.getState()));
 
       if (!routerStateEquals(prevRouterState, nextRouterState)) {
         store.dispatch(routerDidChange(nextRouterState));
@@ -27,7 +28,7 @@ function historySynchronization(next) {
     });
 
     store.subscribe(() => {
-      const nextRouterState = routerStateSelector(store.getState());
+      const nextRouterState = routerStateSelector(toPlainObject(store.getState()));
 
       if (
         nextRouterState &&

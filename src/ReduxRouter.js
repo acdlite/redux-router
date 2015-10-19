@@ -4,12 +4,13 @@ import { RoutingContext } from 'react-router';
 import routerStateEquals from './routerStateEquals';
 import { ROUTER_STATE_SELECTOR } from './constants';
 import { replaceRoutes } from './actionCreators';
+import toPlainObject from './toPlainObject';
 
 function memoizeRouterStateSelector(selector) {
   let previousRouterState = null;
 
   return state => {
-    const nextRouterState = selector(state);
+    const nextRouterState = selector(toPlainObject(state));
     if (routerStateEquals(previousRouterState, nextRouterState)) {
       return previousRouterState;
     }
