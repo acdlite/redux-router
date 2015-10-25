@@ -16,7 +16,7 @@ export default {
   },
   resolve: {
     alias: {
-      'redux-react-router': PROJECT_SRC
+      'redux-router': PROJECT_SRC
     },
     extensions: ['', '.js']
   }
