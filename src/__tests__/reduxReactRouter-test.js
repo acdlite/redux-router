@@ -7,7 +7,7 @@ import {
 } from '../';
 import { REPLACE_ROUTES } from '../constants';
 
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import React from 'react';
 import { Route } from 'react-router';
 import createHistory from 'history/lib/createMemoryHistory';
@@ -35,8 +35,8 @@ describe('reduxRouter()', () => {
     })(createStore)(reducer);
 
     const historySpy = sinon.spy();
-    history.listen(s => historySpy());
-    
+    history.listen(() => historySpy());
+
     expect(historySpy.callCount).to.equal(1);
 
     history.pushState(null, '/parent');
@@ -182,6 +182,36 @@ describe('reduxRouter()', () => {
 
     store.dispatch({ type: 'RANDOM_ACTION' });
     expect(historyState).to.equal(null);
+  });
+
+  it('handles async middleware', (done) => {
+    const reducer = combineReducers({
+      router: routerStateReducer
+    });
+
+    const history = createHistory();
+    const historySpy = sinon.spy();
+
+    history.listen(() => historySpy());
+    expect(historySpy.callCount).to.equal(1);
+
+    compose(
+      reduxReactRouter({
+        history,
+        routes,
+      }),
+      applyMiddleware(
+        () => next => action => setTimeout(() => next(action), 0)
+      )
+    )(createStore)(reducer);
+
+    history.pushState(null, '/parent');
+    expect(historySpy.callCount).to.equal(2);
+
+    setTimeout(() => {
+      expect(historySpy.callCount).to.equal(2);
+      done();
+    }, 0);
   });
 
   describe('getRoutes()', () => {

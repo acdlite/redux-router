@@ -11,6 +11,7 @@ function historySynchronization(next) {
     const store = next(options)(createStore)(reducer, initialState);
     const { history } = store;
 
+    let prevRouterState;
     let routerState;
 
     history.listen((error, nextRouterState) => {
@@ -20,6 +21,7 @@ function historySynchronization(next) {
       }
 
       if (!routerStateEquals(routerState, nextRouterState)) {
+        prevRouterState = routerState;
         routerState = nextRouterState;
         store.dispatch(routerDidChange(nextRouterState));
       }
@@ -27,13 +29,13 @@ function historySynchronization(next) {
 
     store.subscribe(() => {
       const nextRouterState = routerStateSelector(store.getState());
-      const currentRouterState = routerState;
-      routerState = nextRouterState;
 
       if (
         nextRouterState &&
-        !routerStateEquals(currentRouterState, nextRouterState)
+        prevRouterState !== nextRouterState &&
+        !routerStateEquals(routerState, nextRouterState)
       ) {
+        routerState = nextRouterState;
         const { state, pathname, query } = nextRouterState.location;
         history.replaceState(state, pathname, query);
       }
