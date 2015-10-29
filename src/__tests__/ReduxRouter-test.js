@@ -166,6 +166,19 @@ describe('<ReduxRouter>', () => {
         expect(redirectLocation.pathname).to.equal('/parent/child/850');
       }));
     });
+
+    it('handles 404s gracefully', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      const store = server.reduxReactRouter({ routes })(createStore)(reducer);
+      store.dispatch(server.match('/parent', () => {
+        store.dispatch(server.match('/404', () => {
+          expect(store.getState().router).to.not.be.undefined;
+        }));
+      }));
+    });
   });
 
   describe('dynamic route switching', () => {
