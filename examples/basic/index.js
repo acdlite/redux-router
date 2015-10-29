@@ -5,19 +5,32 @@ import { createStore, compose, combineReducers } from 'redux';
 import {
   ReduxRouter,
   routerStateReducer,
-  reduxReactRouter
+  reduxReactRouter,
+  pushState
 } from 'redux-router';
 
 import { Route, Link } from 'react-router';
 import { Provider, connect } from 'react-redux';
 import { devTools } from 'redux-devtools';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
-import createHistory from 'history/lib/createBrowserHistory';
+import { createHistory } from 'history';
 
-@connect(state => ({ routerState: state.router }))
+@connect((state) => ({}))
 class App extends Component {
   static propTypes = {
     children: PropTypes.node
+  }
+
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    event.preventDefault();
+    const { dispatch } = this.props;
+
+    dispatch(pushState(null, '/parent/child/custom'));
   }
 
   render() {
@@ -36,6 +49,10 @@ class App extends Component {
       <div>
         <h1>App Container</h1>
         {links}
+
+        <a href="#" onClick={this.handleClick}>
+          /parent/child/custom
+        </a>
         {this.props.children}
       </div>
     );
@@ -59,9 +76,12 @@ class Parent extends Component {
 
 class Child extends Component {
   render() {
+    const { params: { id }} = this.props;
+
     return (
       <div>
         <h2>Child</h2>
+        {id && <p>{id}</p>}
       </div>
     );
   }
