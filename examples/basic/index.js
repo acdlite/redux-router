@@ -51,7 +51,7 @@ class App extends Component {
         {links}
 
         <a href="#" onClick={this.handleClick}>
-          Custom click
+          /parent/child/custom
         </a>
         {this.props.children}
       </div>
