@@ -6,7 +6,7 @@ import {
   ReduxRouter,
   routerStateReducer,
   reduxReactRouter,
-  pushState,
+  pushState
 } from 'redux-router';
 
 import { Route, Link } from 'react-router';
@@ -30,7 +30,7 @@ class App extends Component {
     event.preventDefault();
     const { dispatch } = this.props;
 
-    dispatch(pushState(null, '/parent/child/custom/'));
+    dispatch(pushState(null, '/parent/child/custom'));
   }
 
   render() {
