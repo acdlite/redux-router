@@ -6,7 +6,7 @@ redux-router
 
 **Documentation is in progress. Please refer to the [basic example](https://github.com/rackt/redux-router/tree/master/examples/basic) in the meantime.**
 
-Redux bindings for React Router.
+[Redux](redux.js.org) bindings for [React Router](https://github.com/rackt/react-router).
 
 - Keep your router state inside your Redux Store.
 - Interact with the Router with the same API you use to interact with the rest of your app state.
