@@ -25,7 +25,11 @@ function matching(next) {
   return options => createStore => (reducer, initialState) => {
     const store = compose(
       applyMiddleware(
-        matchMiddleware((...args) => store.history.match(...args))
+        matchMiddleware((url, callback) => {
+          const location = store.history.createLocation(url);
+
+          store.history.match(location, callback);
+        })
       ),
       next({
         ...options,
