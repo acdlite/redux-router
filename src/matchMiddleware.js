@@ -6,7 +6,7 @@ export default function matchMiddleware(match) {
     if (action.type === MATCH) {
       const { url, callback } = action.payload;
       match(url, (error, redirectLocation, routerState) => {
-        if (!error && !redirectLocation) {
+        if (!error && !redirectLocation && routerState) {
           dispatch(routerDidChange(routerState));
         }
         callback(error, redirectLocation, routerState);
