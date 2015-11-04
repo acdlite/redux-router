@@ -141,6 +141,16 @@ describe('<ReduxRouter>', () => {
       }));
     });
 
+    it('should gracefully handle 404s', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      const store = server.reduxReactRouter({ routes })(createStore)(reducer);
+      expect(() => store.dispatch(server.match('/404', () => {})))
+        .to.not.throw();
+    });
+
     it('throws if routes are not passed to store enhancer', () => {
       const reducer = combineReducers({
         router: routerStateReducer
