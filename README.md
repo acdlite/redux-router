@@ -15,7 +15,7 @@ Redux bindings for React Router.
 - Works with time travel feature of Redux Devtools!
 
 ```js
-npm install --save redux-router@1.0.0-beta3
+npm install --save redux-router@1.0.0-beta4
 ```
 
 ## Why
