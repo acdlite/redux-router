@@ -6,7 +6,9 @@ export isActive from './isActive';
 export {
   historyAPI,
   pushState,
+  push,
   replaceState,
+  replace,
   setState,
   go,
   goBack,
