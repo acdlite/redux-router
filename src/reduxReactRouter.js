@@ -11,7 +11,15 @@ export default function reduxReactRouter({
   routerStateSelector
 }) {
   return createStore => (reducer, initialState) => {
-    const history = useRoutes(createHistory)({
+
+    let baseCreateHistory;
+    if (typeof createHistory === 'function') {
+      baseCreateHistory = createHistory;
+    } else if (createHistory) {
+      baseCreateHistory = () => createHistory;
+    }
+
+    const history = useRoutes(baseCreateHistory)({
       routes,
       parseQueryString,
       stringifyQuery
