@@ -10,6 +10,7 @@ import { createStore, combineReducers } from 'redux';
 import React from 'react';
 import { Route } from 'react-router';
 import createHistory from 'history/lib/createMemoryHistory';
+import useBaseName from 'history/lib/useBaseName';
 import sinon from 'sinon';
 
 const routes = (
@@ -139,6 +140,31 @@ describe('reduxRouter()', () => {
     store.dispatch({ type: APPEND_STRING, string: 'Uni' });
     store.dispatch({ type: APPEND_STRING, string: 'directional' });
     expect(store.getState().string).to.equal('Unidirectional');
+  });
+
+  it('accepts history object when using basename', () => {
+    const reducer = combineReducers({
+      router: routerStateReducer
+    });
+
+    const history = useBaseName(createHistory)({
+      basename: '/grandparent'
+    });
+
+    const store = reduxReactRouter({
+      history,
+      routes
+    })(createStore)(reducer);
+
+    history.pushState(null, '/parent');
+    expect(store.getState().router.location.pathname).to.eql('/parent');
+
+    history.pushState(null, '/parent/child/123?key=value');
+    expect(store.getState().router.location.pathname)
+      .to.eql('/parent/child/123');
+    expect(store.getState().router.location.basename).to.eql('/grandparent');
+    expect(store.getState().router.location.query).to.eql({ key: 'value' });
+    expect(store.getState().router.params).to.eql({ id: '123' });
   });
 
   describe('getRoutes()', () => {
