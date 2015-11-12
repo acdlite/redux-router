@@ -104,6 +104,10 @@ An action creator for `history.pushState()`.
 
 An action creator for `history.replaceState()`.
 
+## Handling authentication via a higher order component
+
+@joshgeller threw together a good example on how to handle user authentication via a higher order compnent. Check out [joshgeller/react-redux-jwt-auth-example](https://github.com/joshgeller/react-redux-jwt-auth-example)
+
 ## Bonus: Reacting to state changes with redux-rx
 
 This library pairs well with [redux-rx](https://github.com/acdlite/redux-rx) to trigger route transitions in response to state changes. Here's a simple example of redirecting to a new page after a successful login:
