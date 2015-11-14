@@ -106,7 +106,7 @@ An action creator for `history.replaceState()`.
 
 ## Handling authentication via a higher order component
 
-@joshgeller threw together a good example on how to handle user authentication via a higher order compnent. Check out [joshgeller/react-redux-jwt-auth-example](https://github.com/joshgeller/react-redux-jwt-auth-example)
+@joshgeller threw together a good example on how to handle user authentication via a higher order component. Check out [joshgeller/react-redux-jwt-auth-example](https://github.com/joshgeller/react-redux-jwt-auth-example)
 
 ## Bonus: Reacting to state changes with redux-rx
 
