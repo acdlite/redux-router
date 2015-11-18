@@ -33,7 +33,8 @@ function historySynchronization(next) {
         nextRouterState &&
         !routerStateEquals(routerState, nextRouterState)
       ) {
-        const { state, pathname, query } = nextRouterState.location;
+        let { state, pathname, query } = nextRouterState.location;
+        if(nextRouterState.location.hasOwnProperty('hash')) pathname = `${pathname}${nextRouterState.location.hash}`
         history.replaceState(state, pathname, query);
       }
 
