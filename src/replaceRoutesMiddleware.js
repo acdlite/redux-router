@@ -1,9 +1,10 @@
-import { REPLACE_ROUTES } from './constants';
+import { INIT_ROUTES, REPLACE_ROUTES } from './constants';
 
 export default function replaceRoutesMiddleware(replaceRoutes) {
   return () => next => action => {
-    if (action.type === REPLACE_ROUTES) {
-      replaceRoutes(action.payload);
+    const isInitRoutes = action.type === INIT_ROUTES;
+    if (isInitRoutes || action.type === REPLACE_ROUTES) {
+      replaceRoutes(action.payload, isInitRoutes);
     }
     return next(action);
   };

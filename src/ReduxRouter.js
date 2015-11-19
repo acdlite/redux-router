@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { RoutingContext as DefaultRoutingContext } from 'react-router';
 import routerStateEquals from './routerStateEquals';
 import { ROUTER_STATE_SELECTOR } from './constants';
-import { replaceRoutes } from './actionCreators';
+import { initRoutes, replaceRoutes } from './actionCreators';
 
 function memoizeRouterStateSelector(selector) {
   let previousRouterState = null;
@@ -33,7 +33,7 @@ class ReduxRouter extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.receiveRoutes(getRoutesFromProps(props));
+    context.store.dispatch(initRoutes(getRoutesFromProps(props)));
   }
 
   componentWillReceiveProps(nextProps) {
