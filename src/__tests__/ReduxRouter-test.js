@@ -19,6 +19,7 @@ import { createStore, combineReducers } from 'redux';
 import createHistory from 'history/lib/createMemoryHistory';
 import { Link, Route } from 'react-router';
 import jsdom from 'mocha-jsdom';
+import sinon from 'sinon';
 
 @connect(state => state.router)
 class App extends Component {
@@ -107,6 +108,32 @@ describe('<ReduxRouter>', () => {
     expect(child.props.location.pathname).to.equal('/parent/child/123');
     expect(child.props.location.query).to.eql({ key: 'value' });
     expect(child.props.params).to.eql({ id: '123' });
+  });
+
+  it('only renders once on initial load', () => {
+    const reducer = combineReducers({
+      router: routerStateReducer
+    });
+
+    const history = createHistory();
+    const store = reduxReactRouter({
+      history
+    })(createStore)(reducer);
+
+    history.pushState(null, '/parent/child/123?key=value');
+
+    const historySpy = sinon.spy();
+    history.listen(() => historySpy());
+
+    renderIntoDocument(
+      <Provider store={store}>
+        <ReduxRouter>
+          {routes}
+        </ReduxRouter>
+      </Provider>
+    );
+
+    expect(historySpy.callCount).to.equal(1);
   });
 
   // <Link> does stuff inside `onClick` that makes it difficult to test.

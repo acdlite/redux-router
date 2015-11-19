@@ -16,11 +16,11 @@ export default function routeReplacement(next) {
     let areChildRoutesResolved = false;
     const childRoutesCallbacks = [];
 
-    function replaceRoutes(r) {
+    function replaceRoutes(r, isInit) {
       childRoutes = createRoutes(r);
 
       const routerState = routerStateSelector(store.getState());
-      if (routerState) {
+      if (routerState && !isInit) {
         const { state, pathname, query } = routerState.location;
         store.history.replaceState(state, pathname, query);
       }
