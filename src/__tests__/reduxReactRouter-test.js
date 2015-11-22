@@ -11,7 +11,7 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import React from 'react';
 import { Route } from 'react-router';
 import createHistory from 'history/lib/createMemoryHistory';
-import useBaseName from 'history/lib/useBaseName';
+import useBasename from 'history/lib/useBasename';
 import sinon from 'sinon';
 
 const routes = (
@@ -220,7 +220,7 @@ describe('reduxRouter()', () => {
       router: routerStateReducer
     });
 
-    const history = useBaseName(createHistory)({
+    const history = useBasename(createHistory)({
       basename: '/grandparent'
     });
 
