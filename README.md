@@ -51,7 +51,8 @@ const routes = (
 // You can store it elsewhere by specifying a custom `routerStateSelector`
 // in the store enhancer below
 const reducer = combineReducers({
-  router: routerStateReducer
+  router: routerStateReducer,
+  //app: rootReducer, //you can combine all your other reducers under a single namespace like so
 });
 
 // Compose reduxReactRouter with other store enhancers
