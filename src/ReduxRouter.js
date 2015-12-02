@@ -84,9 +84,9 @@ class ReduxRouter extends Component {
 )
 class ReduxRouterContext extends Component {
   render() {
-    let {location} = this.props;
+    const {location} = this.props;
 
-    if(location == null)
+    if(location === null)
       return null; //Async matching
 
     const RoutingContext = this.props.RoutingContext || DefaultRoutingContext;
