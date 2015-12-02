@@ -31,7 +31,7 @@ This library allows you to keep your router state **inside your Redux store**. S
 
 ```js
 import React from 'react';
-import { combineReducers, applyMiddleware, compose } from 'redux';
+import { combineReducers, applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { reduxReactRouter, routerStateReducer, ReduxRouter } from 'redux-router';
 import { createHistory } from 'history';
