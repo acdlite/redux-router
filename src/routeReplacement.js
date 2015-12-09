@@ -22,7 +22,7 @@ export default function routeReplacement(next) {
       const routerState = routerStateSelector(store.getState());
       if (routerState && !isInit) {
         const { state, pathname, query } = routerState.location;
-        store.history.replaceState(state, pathname, query);
+        store.history.replace({state, pathname, query});
       }
 
       if (!areChildRoutesResolved) {

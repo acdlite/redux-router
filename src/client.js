@@ -37,7 +37,7 @@ function historySynchronization(next) {
       ) {
         routerState = nextRouterState;
         const { state, pathname, query } = nextRouterState.location;
-        history.replaceState(state, pathname, query);
+        history.replace({state, pathname, query});
       }
     });
 
