@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { RoutingContext as DefaultRoutingContext } from 'react-router';
+import { Router } from 'react-router';
 import routerStateEquals from './routerStateEquals';
 import { ROUTER_STATE_SELECTOR } from './constants';
 import { initRoutes, replaceRoutes } from './actionCreators';
@@ -89,9 +89,7 @@ class ReduxRouterContext extends Component {
     if (location === null)
       return null; // Async matching
 
-    const RoutingContext = this.props.RoutingContext || DefaultRoutingContext;
-
-    return <RoutingContext {...this.props} />;
+    return <Router {...this.props} />;
   }
 }
 
