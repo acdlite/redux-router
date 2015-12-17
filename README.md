@@ -5,7 +5,11 @@ redux-router
 [![npm version](https://img.shields.io/npm/v/redux-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-router)
 [![redux-router on discord](https://img.shields.io/badge/discord-redux--router@reactiflux-738bd7.svg?style=flat-square)](https://discord.gg/0ZcbPKXt5bVkq8Eo)
 
-**Documentation is in progress. Please refer to the [basic example](https://github.com/rackt/redux-router/tree/master/examples/basic) in the meantime.**
+## For a more stable, "official" binding between Redux and React Router, try [redux-simple-router](https://github.com/jlongster/redux-simple-router)
+
+redux-simple-router is a much more straightfoward way to sync your Redux store with React Router. This project works, too, but it's more experimental, and could be subject to significant API churn and experimentation. Please choose accordingly.
+
+***
 
 Redux bindings for React Router.
 
