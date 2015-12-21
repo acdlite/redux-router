@@ -25,6 +25,14 @@ export default function reduxReactRouter({
       stringifyQuery
     });
 
+    [ 'pushState', 'push', 'replaceState', 'replace',
+      'setState', 'go', 'goBack', 'goForward',
+      'listen', 'createLocation', 'match' ].forEach(funcName => {
+        if (!history.hasOwnProperty(funcName)) {
+          throw new Error(`History API does not support function: ${funcName}`);
+        }
+      });
+
     const store =
       applyMiddleware(
         historyMiddleware(history)

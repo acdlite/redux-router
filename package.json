@@ -49,7 +49,6 @@
     "webpack": "^1.12.1"
   },
   "dependencies": {
-    "deep-equal": "^1.0.1",
-    "history": "^1.12.0"
+    "deep-equal": "^1.0.1"
   }
 }
