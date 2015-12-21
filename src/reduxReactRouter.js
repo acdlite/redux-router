@@ -28,7 +28,8 @@ export default function reduxReactRouter({
     [ 'pushState', 'push', 'replaceState', 'replace',
       'setState', 'go', 'goBack', 'goForward',
       'listen', 'createLocation', 'match' ].forEach(funcName => {
-        if (!history.hasOwnProperty(funcName)) {
+        if (!history.hasOwnProperty(funcName) &&
+            typeof(history[funcName]) === 'function') {
           throw new Error(`History API does not support function: ${funcName}`);
         }
       });
