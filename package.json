@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/rackt/redux-router.git"
+    "url": "git://github.com/acdlite/redux-router.git"
   },
   "keywords": [
     "redux",
