@@ -39,8 +39,8 @@ class App extends Component {
       '/parent?foo=bar',
       '/parent/child?bar=baz',
       '/parent/child/123?baz=foo'
-    ].map(l =>
-      <p>
+    ].map((l, i) =>
+      <p key={i}>
         <Link to={l}>{l}</Link>
       </p>
     );
