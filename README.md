@@ -11,7 +11,7 @@ redux-simple-router is a much more straightfoward way to sync your Redux store w
 
 ***
 
-Redux bindings for React Router.
+[Redux](redux.js.org) bindings for [React Router](https://github.com/rackt/react-router).
 
 - Keep your router state inside your Redux Store.
 - Interact with the Router with the same API you use to interact with the rest of your app state.
