@@ -80,17 +80,15 @@ const routes = (
 describe('<ReduxRouter>', () => {
   jsdom();
 
-  function renderApp() {
-    const reducer = combineReducers({
-      router: routerStateReducer
-    });
+  function renderApp(router = routerStateReducer) {
+    const reducer = combineReducers({router});
 
     const history = createHistory();
+    history.pushState(null, '/parent/child/123?key=value');
+
     const store = reduxReactRouter({
       history
     })(createStore)(reducer);
-
-    history.pushState(null, '/parent/child/123?key=value');
 
     return renderIntoDocument(
       <Provider store={store}>
@@ -148,6 +146,19 @@ describe('<ReduxRouter>', () => {
 
     Simulate.click(link);
     expect(child.props.location.pathname).to.equal('/parent/child/321');
+  });
+
+  it('should call REPLACE_ROUTES and ROUTER_DID_CHANGE once during initialization', () => {
+    const actions = [];
+
+    renderApp((state, action) => {
+      if (action && action.type.indexOf('@@reduxReactRouter') === 0) {
+        actions.push(action.type);
+      }
+      return routerStateReducer(state, action);
+    });
+
+    expect(actions).to.eql(['@@reduxReactRouter/routerDidChange', '@@reduxReactRouter/replaceRoutes']);
   });
 
   describe('server-side rendering', () => {
