@@ -1,12 +1,17 @@
 redux-router
 ============
 
-[![build status](https://img.shields.io/travis/rackt/redux-router/master.svg?style=flat-square)](https://travis-ci.org/rackt/redux-router)
+[![build status](https://img.shields.io/travis/acdlite/redux-router/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-router)
 [![npm version](https://img.shields.io/npm/v/redux-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-router)
+[![redux-router on discord](https://img.shields.io/badge/discord-redux--router@reactiflux-738bd7.svg?style=flat-square)](https://discord.gg/0ZcbPKXt5bVkq8Eo)
 
-**Documentation is in progress. Please refer to the [basic example](https://github.com/rackt/redux-router/tree/master/examples/basic) in the meantime.**
+## For a more stable, "official" binding between Redux and React Router, try [redux-simple-router](https://github.com/rackt/redux-simple-router)
 
-Redux bindings for React Router.
+redux-simple-router is a much more straightfoward way to sync your Redux store with React Router. This project works, too, but it's more experimental, and could be subject to significant API churn and experimentation. Please choose accordingly.
+
+***
+
+[Redux](redux.js.org) bindings for [React Router](https://github.com/rackt/react-router).
 
 - Keep your router state inside your Redux Store.
 - Interact with the Router with the same API you use to interact with the rest of your app state.
@@ -14,8 +19,8 @@ Redux bindings for React Router.
 - Serialize and deserialize router state.
 - Works with time travel feature of Redux Devtools!
 
-```js
-npm install --save redux-router@1.0.0-beta3
+```sh
+npm install --save redux-router@1.0.0-beta5
 ```
 
 ## Why
@@ -30,9 +35,10 @@ This library allows you to keep your router state **inside your Redux store**. S
 
 ```js
 import React from 'react';
-import { combineReducers, applyMiddleware, compose } from 'redux';
-import { Provider } from 'react-redux';
+import { combineReducers, applyMiddleware, compose, createStore } from 'redux';
 import { reduxReactRouter, routerStateReducer, ReduxRouter } from 'redux-router';
+import { createHistory } from 'history';
+import { Route } from 'react-router';
 
 // Configure routes like normal
 const routes = (
@@ -48,7 +54,8 @@ const routes = (
 // You can store it elsewhere by specifying a custom `routerStateSelector`
 // in the store enhancer below
 const reducer = combineReducers({
-  router: routerStateReducer
+  router: routerStateReducer,
+  //app: rootReducer, //you can combine all your other reducers under a single namespace like so
 });
 
 // Compose reduxReactRouter with other store enhancers
@@ -112,7 +119,11 @@ An action creator for `history.replaceState()`. (https://developer.mozilla.org/e
 
 Works similar to the `pushState` except that it doesn't create new browser history entry.
 
-Reffering to the `pushState` example: clicking back button will change address bar back to the URL before `http://example.com/order/new` and will change page content.
+Referring to the `pushState` example: clicking back button will change address bar back to the URL before `http://example.com/order/new` and will change page content.
+
+## Handling authentication via a higher order component
+
+@joshgeller threw together a good example on how to handle user authentication via a higher order component. Check out [joshgeller/react-redux-jwt-auth-example](https://github.com/joshgeller/react-redux-jwt-auth-example)
 
 ## Bonus: Reacting to state changes with redux-rx
 
