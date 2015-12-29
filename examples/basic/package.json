@@ -1,5 +1,5 @@
 {
-  "name": "redux-react-router-basic-example",
+  "name": "redux-router-basic-example",
   "version": "0.1.0",
   "description": "",
   "main": "server.js",
@@ -10,6 +10,6 @@
   "author": "Andrew Clark <acdlite@me.com>",
   "license": "MIT",
   "dependencies": {
-    "redux-router": "^1.0.0-beta3"
+    "redux-router": "^1.0.0-beta5"
   }
 }
