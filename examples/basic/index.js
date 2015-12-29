@@ -6,7 +6,7 @@ import {
   ReduxRouter,
   routerStateReducer,
   reduxReactRouter,
-  pushState
+  pushState,
 } from 'redux-router';
 
 import { Route, Link } from 'react-router';

@@ -1,5 +1,5 @@
 {
-  "name": "redux-react-router-examples",
+  "name": "redux-router-examples",
   "version": "0.1.0",
   "description": "",
   "scripts": {
@@ -15,8 +15,10 @@
     "babel-runtime": "^5.8.20",
     "express": "^4.13.3",
     "lodash": "^3.10.1",
-    "react-transform-webpack-hmr": "^0.1.4",
+    "query-string": "^2.4.1",
+    "react-transform-hmr": "^1.0.1",
     "redux": "^2.0.0",
+    "serialize-javascript": "^1.1.2",
     "webpack": "^1.12.1",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.0.0"
