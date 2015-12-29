@@ -42,6 +42,7 @@
     "react-dom": "^0.14.1",
     "react-redux": "^4.0.0",
     "react-router": "1.0.0",
+    "react-transform-hmr": "^1.0.1",
     "redux": "3.x",
     "redux-devtools": "^2.1.0",
     "rimraf": "^2.4.3",
