@@ -20,7 +20,7 @@ import createHistory from 'history/lib/createMemoryHistory';
 import { Link, Route } from 'react-router';
 import jsdom from 'mocha-jsdom';
 import sinon from 'sinon';
-/**
+
 @connect(state => state.router)
 class App extends Component {
   static propTypes = {
@@ -47,7 +47,7 @@ class Parent extends Component {
   render() {
     return (
       <div>
-        <Link to="/parent/child/321" query={{ key: 'value' }} />
+        <Link to={{ pathname: "/parent/child/321", query: { key: 'value' }}} />
         {this.props.children}
       </div>
     );
@@ -253,4 +253,3 @@ describe('<ReduxRouter>', () => {
     });
   });
 });
-**/
