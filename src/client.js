@@ -9,12 +9,12 @@ function historySynchronization(next) {
   return options => createStore => (reducer, initialState) => {
     const { onError, routerStateSelector } = options;
     const store = next(options)(createStore)(reducer, initialState);
-    const { history } = store;
+    const { history, transitionManager } = store;
 
     let prevRouterState;
     let routerState;
 
-    history.listen((error, nextRouterState) => {
+    transitionManager.listen((error, nextRouterState) => {
       if (error) {
         onError(error);
         return;

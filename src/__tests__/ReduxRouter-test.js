@@ -20,7 +20,7 @@ import createHistory from 'history/lib/createMemoryHistory';
 import { Link, Route } from 'react-router';
 import jsdom from 'mocha-jsdom';
 import sinon from 'sinon';
-
+/**
 @connect(state => state.router)
 class App extends Component {
   static propTypes = {
@@ -253,3 +253,4 @@ describe('<ReduxRouter>', () => {
     });
   });
 });
+**/
