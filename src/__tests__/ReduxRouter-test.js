@@ -1,7 +1,8 @@
 import {
+  push,
   ReduxRouter,
   reduxReactRouter,
-  routerStateReducer
+  routerStateReducer,
 } from '../';
 
 import * as server from '../server';
@@ -90,7 +91,7 @@ describe('<ReduxRouter>', () => {
       history
     })(createStore)(reducer);
 
-    history.pushState(null, '/parent/child/123?key=value');
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
 
     return renderIntoDocument(
       <Provider store={store}>
@@ -120,7 +121,7 @@ describe('<ReduxRouter>', () => {
       history
     })(createStore)(reducer);
 
-    history.pushState(null, '/parent/child/123?key=value');
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
 
     const historySpy = sinon.spy();
     history.listen(() => historySpy());
@@ -243,7 +244,7 @@ describe('<ReduxRouter>', () => {
         }
       }
 
-      history.pushState(null, '/parent/child');
+      store.dispatch(push({ pathname: '/parent/child' }));
       const tree = renderIntoDocument(<RouterContainer />);
 
 

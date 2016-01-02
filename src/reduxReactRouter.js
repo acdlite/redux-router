@@ -28,15 +28,6 @@ export default function reduxReactRouter({
       stringifyQueryString: stringifyQuery,
     });
 
-    [ 'pushState', 'push', 'replaceState', 'replace',
-      'setState', 'go', 'goBack', 'goForward',
-      'listen', 'createLocation' ].forEach(funcName => {
-      if (!history.hasOwnProperty(funcName) &&
-          typeof(history[funcName]) === 'function') {
-        throw new Error(`History API does not support function: ${funcName}`);
-      }
-    });
-
     const transitionManager = createTransitionManager(
         history, createRoutes(routes || children)
     );
