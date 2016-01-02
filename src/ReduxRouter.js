@@ -83,11 +83,17 @@ class ReduxRouter extends Component {
   (state, { routerStateSelector }) => routerStateSelector(state) || {}
 )
 class ReduxRouterContext extends Component {
+  static propTypes = {
+    location: PropTypes.object,
+    RoutingContext: PropTypes.element,
+  }
+
   render() {
     const {location} = this.props;
 
-    if (location === null || location === undefined)
+    if (location === null || location === undefined) {
       return null; // Async matching
+    }
 
     const RoutingContext = this.props.RoutingContext || DefaultRoutingContext;
 
