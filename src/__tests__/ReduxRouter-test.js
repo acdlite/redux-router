@@ -156,7 +156,7 @@ describe('<ReduxRouter>', () => {
         router: routerStateReducer
       });
 
-      const store = server.reduxReactRouter({ routes })(createStore)(reducer);
+      const store = server.reduxReactRouter({ routes, createHistory })(createStore)(reducer);
       store.dispatch(server.match('/parent/child/850?key=value', (err, redirectLocation, routerState) => {
         const output = renderToString(
           <Provider store={store}>
@@ -173,7 +173,7 @@ describe('<ReduxRouter>', () => {
         router: routerStateReducer
       });
 
-      const store = server.reduxReactRouter({ routes })(createStore)(reducer);
+      const store = server.reduxReactRouter({ routes, createHistory })(createStore)(reducer);
       expect(() => store.dispatch(server.match('/404', () => {})))
         .to.not.throw();
     });
@@ -193,12 +193,24 @@ describe('<ReduxRouter>', () => {
         );
     });
 
+    it('throws if createHistory is not passed to store enhancer', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      expect(() => server.reduxReactRouter({ routes })(createStore)(reducer))
+          .to.throw(
+          'When rendering on the server, createHistory must be passed to the '
+          + 'reduxReactRouter() store enhancer'
+      );
+    });
+
     it('handles redirects', () => {
       const reducer = combineReducers({
         router: routerStateReducer
       });
 
-      const store = server.reduxReactRouter({ routes })(createStore)(reducer);
+      const store = server.reduxReactRouter({ routes, createHistory })(createStore)(reducer);
       store.dispatch(server.match('/redirect', (error, redirectLocation) => {
         expect(error).to.be.null;
         expect(redirectLocation.pathname).to.equal('/parent/child/850');

@@ -1,5 +1,4 @@
 import { compose, applyMiddleware } from 'redux';
-import createMemoryHistory from 'history/lib/createMemoryHistory';
 import baseReduxReactRouter from './reduxReactRouter';
 import useDefaults from './useDefaults';
 import routeReplacement from './routeReplacement';
@@ -14,6 +13,12 @@ function serverInvariants(next) {
       + 'reduxReactRouter() store enhancer; routes as a prop or as children of '
       + '<ReduxRouter> is not supported. To deal with circular dependencies '
       + 'between routes and the store, use the option getRoutes(store).'
+      );
+    }
+    if (!options || !(options.createHistory)) {
+      throw new Error(
+          'When rendering on the server, createHistory must be passed to the '
+          + 'reduxReactRouter() store enhancer'
       );
     }
 
@@ -31,11 +36,7 @@ function matching(next) {
           store.history.match(location, callback);
         })
       ),
-      next({
-        ...options,
-        createHistory: options.createHistory || createMemoryHistory
-      })
-    )(createStore)(reducer, initialState);
+      next(options))(createStore)(reducer, initialState);
     return store;
   };
 }
