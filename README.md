@@ -20,7 +20,7 @@ redux-simple-router is a much more straightfoward way to sync your Redux store w
 - Works with time travel feature of Redux Devtools!
 
 ```sh
-npm install --save redux-router@1.0.0-beta6
+npm install --save redux-router@1.0.0-beta7
 ```
 
 ## Why
