@@ -57,16 +57,15 @@ app.use((req, res) => {
   const url = req.path + (query.length ? '?' + query : '');
 
   store.dispatch(match(url, (error, redirectLocation, routerState) => {
-    if (redirectLocation) {
-      res.redirect(redirectLocation.pathname + redirectLocation.search);
-    } else if (error) {
+    if (error) {
       console.error('Router error:', error);
-      res.status(500);
-      res.send(error);
+      res.status(500).send(error.message);
+    } else if (redirectLocation) {
+      res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (!routerState) {
-      res.status(500);
+      res.status(400).send('Not Found');
     } else {
-      res.send(getMarkup(store));
+      res.status(200).send(getMarkup(store));
     }
   }));
 });
