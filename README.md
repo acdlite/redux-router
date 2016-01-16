@@ -82,6 +82,8 @@ connect(
 )(SearchBox);
 ```
 
+You will find a **server-rendering** example in the repo´s example directory.
+
 ### Works with Redux Devtools (and other external state changes)
 
 redux-router will notice if the router state in your Redux store changes from an external source other than the router itself — e.g. the Redux Devtools — and trigger a transition accordingly!
