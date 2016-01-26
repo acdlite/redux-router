@@ -5,9 +5,9 @@ redux-router
 [![npm version](https://img.shields.io/npm/v/redux-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-router)
 [![redux-router on discord](https://img.shields.io/badge/discord-redux--router@reactiflux-738bd7.svg?style=flat-square)](https://discord.gg/0ZcbPKXt5bVkq8Eo)
 
-## For a more stable, "official" binding between Redux and React Router, try [redux-simple-router](https://github.com/rackt/redux-simple-router)
+## For a more stable, "official" binding between Redux and React Router, try [react-router-redux](https://github.com/rackt/react-router-redux)
 
-redux-simple-router is a much more straightfoward way to sync your Redux store with React Router. This project works, too, but it's more experimental, and could be subject to significant API churn and experimentation. Please choose accordingly.
+react-router-redux is a much more straightfoward way to sync your Redux store with React Router. This project works, too, but it's more experimental, and could be subject to significant API churn and experimentation. Please choose accordingly.
 
 ***
 
@@ -22,7 +22,7 @@ redux-simple-router is a much more straightfoward way to sync your Redux store w
 ```sh
 npm install --save redux-router@1.0.0-beta7
 ```
-
+s
 ## Why
 
 React Router is a fantastic routing library, but one downside is that it abstracts away a very crucial piece of application state — the current route! This abstraction is super useful for route matching and rendering, but the API for interacting with the router to 1) trigger transitions and 2) react to state changes within the component lifecycle leaves something to be desired.
