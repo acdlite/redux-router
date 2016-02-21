@@ -9,13 +9,7 @@ redux-router
 
 ### In most cases, you don’t need any library to bridge Redux and React Router. Just use React Router directly.
 
-### If you want support for time travel in DevTools or reading the current location from the store, we recommend the more “official” bindings called [react-router-redux](https://github.com/rackt/react-router-redux).
-
-### You have been warned.
-
-react-router-redux is a much more straightfoward way to sync your Redux store with React Router. This project works, too, but it's more experimental, and could be subject to significant API churn and experimentation. Please choose accordingly.
-
-***
+## Please check out [the differences between react-router-redux and redux-router](#differences-with-react-router-redux) before using this library
 
 [Redux](redux.js.org) bindings for [React Router](https://github.com/rackt/react-router).
 
@@ -93,6 +87,44 @@ You will find a **server-rendering** example in the repo´s example directory.
 ### Works with Redux Devtools (and other external state changes)
 
 redux-router will notice if the router state in your Redux store changes from an external source other than the router itself — e.g. the Redux Devtools — and trigger a transition accordingly!
+
+## Differences with react-router-redux
+
+#### react-router-redux
+
+[react-router-redux](https://github.com/reactjs/react-router-redux) (formerly redux-simple-router) takes a different approach to
+integrating routing with redux. react-router-redux lets React Router do all the heavy lifting and syncs the url data to a history
+[location](https://github.com/reactjs/history/blob/master/docs/Location.md#location) object in the store. This means that users can use
+React Router's APIs directly and benefit from the wide array of documentation and examples there.
+
+The README for react-router-redux has a useful picture included here:
+
+[redux](https://github.com/rackt/redux) (`store.routing`) &nbsp;&harr;&nbsp; [**react-router-redux**](https://github.com/reactjs/react-router-redux) &nbsp;&harr;&nbsp; [history](https://github.com/reactjs/history) (`history.location`) &nbsp;&harr;&nbsp; [react-router](https://github.com/reactjs/react-router)
+
+This approach, while simple to use, comes with a few caveats:
+  1. The history location object does not include React Router params and they must be either passed down from a React Router component or recomputed.
+  2. It is discouraged (and dangerous) to connect the store data to a component because the store data potentially updates **after** the React Router properties have changed, therefore there can be race conditions where the location store data differs from the location object passed down via React Router to components.
+
+react-router-redux encourages users to use props directly from React Router in the components (they are passed down to any rendered route components). This means that if you want to access the location data far down the component tree, you may need to pass it down or use React's context feature.
+
+#### redux-router
+
+This project, on the other hand takes the approach of storing the **entire** React Router data inside the redux store. This has the main benefit that it becomes impossible for the properties passed down by redux-router to the components in the Route to differ from the data included in the store. Therefore feel free to connect the router data to any component you wish. You can also access the route params from the store directly. redux-router also provides an API for hot swapping the routes from the Router (something React Router does not currently provide).
+
+The picture of redux-router would look more like this:
+
+[redux](https://github.com/rackt/redux) (`store.router`) &nbsp;&harr;&nbsp; [**redux-router**](https://github.com/acdlite/redux-router) &nbsp;&harr;&nbsp; [react-router (via RouterContext)](https://github.com/reactjs/react-router)
+
+This approach, also has its set of limitations:
+  1. The router data is not all serializable (because Components and functions are not direclty serializable) and therefore this can cause issues with some devTools extensions and libraries that help in saving the store to the browser session. This can be mitigated if the libraries offer ways to ignore seriliazing parts of the store but is not always possible.
+  2. redux-router takes advantage of the RouterContext to still use much of React Router's internal logic. However, redux-router must still implement many things that React Router already does on its own and can cause delays in upgrade paths.
+  3. redux-router must provide a slightly different top level API (due to 2) even if the Route logic/matching is identical
+
+
+Ultimately, your choice in the library is up to you and your project's needs. react-router-redux will continue to have a larger support
+in the community due to its inclusion into the reactjs github organization and visibility. **react-router-redux is the recommended approach**
+for react-router and redux integration. However, you may find that redux-router aligns better with your project's needs.
+redux-router will continue to be mantained as long as demand exists.
 
 ## API
 
