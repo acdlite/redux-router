@@ -5,7 +5,13 @@ redux-router
 [![npm version](https://img.shields.io/npm/v/redux-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-router)
 [![redux-router on discord](https://img.shields.io/badge/discord-redux--router@reactiflux-738bd7.svg?style=flat-square)](https://discord.gg/0ZcbPKXt5bVkq8Eo)
 
-## For a more stable, "official" binding between Redux and React Router, try [react-router-redux](https://github.com/rackt/react-router-redux)
+## This project is experimental.
+
+### In most cases, you don’t need any library to bridge Redux and React Router. Just use React Router directly.
+
+### If you want support for time travel in DevTools or reading the current location from the store, we recommend the more “official” bindings called [react-router-redux](https://github.com/rackt/react-router-redux).
+
+### You have been warned.
 
 react-router-redux is a much more straightfoward way to sync your Redux store with React Router. This project works, too, but it's more experimental, and could be subject to significant API churn and experimentation. Please choose accordingly.
 
