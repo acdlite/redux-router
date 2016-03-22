@@ -71,14 +71,14 @@ const store = compose(
 
 // Elsewhere, in a component module...
 import { connect } from 'react-redux';
-import { pushState } from 'redux-router';
+import { push } from 'redux-router';
 
 connect(
   // Use a selector to subscribe to state
   state => ({ q: state.router.location.query.q }),
 
   // Use an action creator for navigation
-  { pushState }
+  { push }
 )(SearchBox);
 ```
 
@@ -140,26 +140,26 @@ A reducer that keeps track of Router state.
 
 A component that renders a React Router app using router state from a Redux store.
 
-### `pushState(state, pathname, query)`
+### `push(state, pathname, query)`
 
-An action creator for `history.pushState()`. (https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)
+An action creator for `history.push()`. (https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)
 
 Basic example (let say we are at `http://example.com/order/new`):
 ```js
-dispatch(pushState(null, '/orders/' + order.id.toString(), ''))
+dispatch(push(null, '/orders/' + order.id.toString(), ''))
 ```
 Provided that `order.id` is set and equals `123` it will change browser address bar to `http://example.com/order/123` and appends this URL to the browser history (without reloading the page).
 
 **NOTE:** clicking back button will change address bar back to `http://example.com/order/new` but will **not** change page content
 **NOTE:** `pathname` has to be a string, numbers will generate an exception
 
-### `replaceState(state, pathname, query)`
+### `replace(state, pathname, query)`
 
-An action creator for `history.replaceState()`. (https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_replaceState()_method)
+An action creator for `history.replace()`. (https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_replaceState()_method)
 
-Works similar to the `pushState` except that it doesn't create new browser history entry.
+Works similar to the `push` except that it doesn't create new browser history entry.
 
-Referring to the `pushState` example: clicking back button will change address bar back to the URL before `http://example.com/order/new` and will change page content.
+Referring to the `push` example: clicking back button will change address bar back to the URL before `http://example.com/order/new` and will change page content.
 
 ## Handling authentication via a higher order component
 
@@ -172,7 +172,7 @@ This library pairs well with [redux-rx](https://github.com/acdlite/redux-rx) to 
 ```js
 const LoginPage = createConnector(props$, state$, dispatch$, () => {
   const actionCreators$ = bindActionCreators(actionCreators, dispatch$);
-  const pushState$ = actionCreators$.map(ac => ac.pushState);
+  const push$ = actionCreators$.map(ac => ac.push);
 
   // Detect logins
   const didLogin$ = state$
@@ -182,9 +182,9 @@ const LoginPage = createConnector(props$, state$, dispatch$, () => {
   // Redirect on login!
   const redirect$ = didLogin$
     .withLatestFrom(
-      pushState$,
+      push$,
       // Use query parameter as redirect path
-      (state, pushState) => () => pushState(null, state.router.query.redirect || '/')
+      (state, push) => () => push(null, state.router.query.redirect || '/')
     )
     .do(go => go());
 
