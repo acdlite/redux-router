@@ -64,7 +64,7 @@ class Child extends Component {
 }
 
 function redirectOnEnter(pathname) {
-  return (routerState, replaceState) => replaceState(null, pathname);
+  return (routerState, replace) => replace(null, pathname);
 }
 
 const routes = (
