@@ -192,7 +192,7 @@ const LoginPage = createConnector(props$, state$, dispatch$, () => {
     .withLatestFrom(
       push$,
       // Use query parameter as redirect path
-      (state, push) => () => push(null, state.router.query.redirect || '/')
+      (state, push) => () => push(state.router.query.redirect || '/')
     )
     .do(go => go());
 
