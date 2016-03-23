@@ -173,12 +173,12 @@ Works similar to the `push` except that it doesn't create new browser history en
 
 ```js
 // Go back to the previous entry in browser history.
-// These lines are synounymous.
+// These lines are synonymous.
 history.go(-1);
 history.goBack();
 
 // Go forward to the next entry in browser history.
-// These lines are synounymous.
+// These lines are synonymous.
 history.go(1);
 history.goForward();
 ```
