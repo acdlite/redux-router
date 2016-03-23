@@ -11,7 +11,7 @@ redux-router
 
 ## Please check out [the differences between react-router-redux and redux-router](#differences-with-react-router-redux) before using this library
 
-[Redux](redux.js.org) bindings for [React Router](https://github.com/rackt/react-router).
+[Redux](redux.js.org) bindings for [React Router](https://github.com/reactjs/react-router).
 
 - Keep your router state inside your Redux Store.
 - Interact with the Router with the same API you use to interact with the rest of your app state.
@@ -94,12 +94,12 @@ redux-router will notice if the router state in your Redux store changes from an
 
 [react-router-redux](https://github.com/reactjs/react-router-redux) (formerly redux-simple-router) takes a different approach to
 integrating routing with redux. react-router-redux lets React Router do all the heavy lifting and syncs the url data to a history
-[location](https://github.com/reactjs/history/blob/master/docs/Location.md#location) object in the store. This means that users can use
+[location](https://github.com/mjackson/history/blob/master/docs/Location.md#location) object in the store. This means that users can use
 React Router's APIs directly and benefit from the wide array of documentation and examples there.
 
 The README for react-router-redux has a useful picture included here:
 
-[redux](https://github.com/rackt/redux) (`store.routing`) &nbsp;&harr;&nbsp; [**react-router-redux**](https://github.com/reactjs/react-router-redux) &nbsp;&harr;&nbsp; [history](https://github.com/reactjs/history) (`history.location`) &nbsp;&harr;&nbsp; [react-router](https://github.com/reactjs/react-router)
+[redux](https://github.com/reactjs/redux) (`store.routing`) &nbsp;&harr;&nbsp; [**react-router-redux**](https://github.com/reactjs/react-router-redux) &nbsp;&harr;&nbsp; [history](https://github.com/reactjs/history) (`history.location`) &nbsp;&harr;&nbsp; [react-router](https://github.com/reactjs/react-router)
 
 This approach, while simple to use, comes with a few caveats:
   1. The history location object does not include React Router params and they must be either passed down from a React Router component or recomputed.
@@ -113,7 +113,7 @@ This project, on the other hand takes the approach of storing the **entire** Rea
 
 The picture of redux-router would look more like this:
 
-[redux](https://github.com/rackt/redux) (`store.router`) &nbsp;&harr;&nbsp; [**redux-router**](https://github.com/acdlite/redux-router) &nbsp;&harr;&nbsp; [react-router (via RouterContext)](https://github.com/reactjs/react-router)
+[redux](https://github.com/reactjs/redux) (`store.router`) &nbsp;&harr;&nbsp; [**redux-router**](https://github.com/acdlite/redux-router) &nbsp;&harr;&nbsp; [react-router (via RouterContext)](https://github.com/reactjs/react-router)
 
 This approach, also has its set of limitations:
   1. The router data is not all serializable (because Components and functions are not direclty serializable) and therefore this can cause issues with some devTools extensions and libraries that help in saving the store to the browser session. This can be mitigated if the libraries offer ways to ignore seriliazing parts of the store but is not always possible.
