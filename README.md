@@ -169,6 +169,20 @@ Works similar to the `push` except that it doesn't create new browser history en
 
 **NOTE:** Referring to the `push` example: clicking back button will change address bar back to the URL before `http://example.com/orders/new` and will change page content.
 
+### `go(n)` `goBack()` `goForward()`
+
+```js
+// Go back to the previous entry in browser history.
+// These lines are synounymous.
+history.go(-1);
+history.goBack();
+
+// Go forward to the next entry in browser history.
+// These lines are synounymous.
+history.go(1);
+history.goForward();
+```
+
 ## Handling authentication via a higher order component
 
 @joshgeller threw together a good example on how to handle user authentication via a higher order component. Check out [joshgeller/react-redux-jwt-auth-example](https://github.com/joshgeller/react-redux-jwt-auth-example)
