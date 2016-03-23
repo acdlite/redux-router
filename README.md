@@ -142,7 +142,7 @@ A component that renders a React Router app using router state from a Redux stor
 
 ### `push(location)`
 
-An action creator for `history.push()`. (https://github.com/mjackson/history/blob/master/docs/GettingStarted.md#navigation)
+An action creator for `history.push()`. [mjackson/history/docs/GettingStarted.md#navigation](https://github.com/mjackson/history/blob/master/docs/GettingStarted.md#navigation)
 
 Basic example (let say we are at `http://example.com/orders/new`):
 ```js
@@ -163,7 +163,7 @@ This will change the browser address bar to `http://example.com/orders?filter=sh
 
 ### `replace(location)`
 
-An action creator for `history.replace()`. (https://github.com/mjackson/history/blob/master/docs/GettingStarted.md#navigation)
+An action creator for `history.replace()`. [mjackson/history/docs/GettingStarted.md#navigation](https://github.com/mjackson/history/blob/master/docs/GettingStarted.md#navigation)
 
 Works similar to the `push` except that it doesn't create new browser history entry.
 
