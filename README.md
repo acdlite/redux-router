@@ -140,26 +140,34 @@ A reducer that keeps track of Router state.
 
 A component that renders a React Router app using router state from a Redux store.
 
-### `push(state, pathname, query)`
+### `push(location)`
 
-An action creator for `history.push()`. (https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)
+An action creator for `history.push()`. (https://github.com/mjackson/history/blob/master/docs/GettingStarted.md#navigation)
 
-Basic example (let say we are at `http://example.com/order/new`):
+Basic example (let say we are at `http://example.com/orders/new`):
 ```js
-dispatch(push(null, '/orders/' + order.id.toString(), ''))
+dispatch(push('/orders/' + order.id));
 ```
-Provided that `order.id` is set and equals `123` it will change browser address bar to `http://example.com/order/123` and appends this URL to the browser history (without reloading the page).
+Provided that `order.id` is set and equals `123` it will change browser address bar to `http://example.com/orders/123` and appends this URL to the browser history (without reloading the page).
 
-**NOTE:** clicking back button will change address bar back to `http://example.com/order/new` but will **not** change page content
-**NOTE:** `pathname` has to be a string, numbers will generate an exception
+A bit more advanced example:
+```js
+dispatch(push({
+  pathName: '/orders',
+  query: { filter: 'shipping' }
+}));
+```
+This will change the browser address bar to `http://example.com/orders?filter=shipping`.
 
-### `replace(state, pathname, query)`
+**NOTE:** clicking back button will change address bar back to `http://example.com/orders/new` but will **not** change page content
 
-An action creator for `history.replace()`. (https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_replaceState()_method)
+### `replace(location)`
+
+An action creator for `history.replace()`. (https://github.com/mjackson/history/blob/master/docs/GettingStarted.md#navigation)
 
 Works similar to the `push` except that it doesn't create new browser history entry.
 
-Referring to the `push` example: clicking back button will change address bar back to the URL before `http://example.com/order/new` and will change page content.
+**NOTE:** Referring to the `push` example: clicking back button will change address bar back to the URL before `http://example.com/orders/new` and will change page content.
 
 ## Handling authentication via a higher order component
 
