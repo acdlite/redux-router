@@ -5,7 +5,9 @@ redux-router
 [![npm version](https://img.shields.io/npm/v/redux-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-router)
 [![redux-router on discord](https://img.shields.io/badge/discord-redux--router@reactiflux-738bd7.svg?style=flat-square)](https://discord.gg/0ZcbPKXt5bVkq8Eo)
 
-## This project is experimental.
+## This project is experimental. 
+
+### For bindings for React Router 1.x see [here](https://github.com/acdlite/redux-router/tree/263f623f6e8a8ec165568216888e572a48c5cd54)
 
 ### In most cases, you don’t need any library to bridge Redux and React Router. Just use React Router directly.
 
