@@ -12,6 +12,6 @@ export default function isActive(pathname, query, indexOnly = false) {
   return state => {
     if (!state) return false;
     const { location, params, routes } = state;
-    return _isActive(pathname, query, indexOnly, location, routes, params);
+    return _isActive({ pathname, query }, indexOnly, location, routes, params);
   };
 }

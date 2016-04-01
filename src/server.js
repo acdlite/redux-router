@@ -33,7 +33,7 @@ function matching(next) {
         matchMiddleware((url, callback) => {
           const location = store.history.createLocation(url);
 
-          store.history.match(location, callback);
+          store.transitionManager.match(location, callback);
         })
       ),
       next(options))(createStore)(reducer, initialState);

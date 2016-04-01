@@ -53,9 +53,7 @@ export function historyAPI(method) {
   });
 }
 
-export const pushState = historyAPI('pushState');
 export const push = historyAPI('push');
-export const replaceState = historyAPI('replaceState');
 export const replace = historyAPI('replace');
 export const setState = historyAPI('setState');
 export const go = historyAPI('go');

@@ -11,7 +11,7 @@ redux-router
 
 ## Please check out [the differences between react-router-redux and redux-router](#differences-with-react-router-redux) before using this library
 
-[Redux](redux.js.org) bindings for [React Router](https://github.com/rackt/react-router).
+[Redux](redux.js.org) bindings for [React Router](https://github.com/reactjs/react-router).
 
 - Keep your router state inside your Redux Store.
 - Interact with the Router with the same API you use to interact with the rest of your app state.
@@ -71,14 +71,14 @@ const store = compose(
 
 // Elsewhere, in a component module...
 import { connect } from 'react-redux';
-import { pushState } from 'redux-router';
+import { push } from 'redux-router';
 
 connect(
   // Use a selector to subscribe to state
   state => ({ q: state.router.location.query.q }),
 
   // Use an action creator for navigation
-  { pushState }
+  { push }
 )(SearchBox);
 ```
 
@@ -94,12 +94,12 @@ redux-router will notice if the router state in your Redux store changes from an
 
 [react-router-redux](https://github.com/reactjs/react-router-redux) (formerly redux-simple-router) takes a different approach to
 integrating routing with redux. react-router-redux lets React Router do all the heavy lifting and syncs the url data to a history
-[location](https://github.com/reactjs/history/blob/master/docs/Location.md#location) object in the store. This means that users can use
+[location](https://github.com/mjackson/history/blob/master/docs/Location.md#location) object in the store. This means that users can use
 React Router's APIs directly and benefit from the wide array of documentation and examples there.
 
 The README for react-router-redux has a useful picture included here:
 
-[redux](https://github.com/rackt/redux) (`store.routing`) &nbsp;&harr;&nbsp; [**react-router-redux**](https://github.com/reactjs/react-router-redux) &nbsp;&harr;&nbsp; [history](https://github.com/reactjs/history) (`history.location`) &nbsp;&harr;&nbsp; [react-router](https://github.com/reactjs/react-router)
+[redux](https://github.com/reactjs/redux) (`store.routing`) &nbsp;&harr;&nbsp; [**react-router-redux**](https://github.com/reactjs/react-router-redux) &nbsp;&harr;&nbsp; [history](https://github.com/reactjs/history) (`history.location`) &nbsp;&harr;&nbsp; [react-router](https://github.com/reactjs/react-router)
 
 This approach, while simple to use, comes with a few caveats:
   1. The history location object does not include React Router params and they must be either passed down from a React Router component or recomputed.
@@ -113,7 +113,7 @@ This project, on the other hand takes the approach of storing the **entire** Rea
 
 The picture of redux-router would look more like this:
 
-[redux](https://github.com/rackt/redux) (`store.router`) &nbsp;&harr;&nbsp; [**redux-router**](https://github.com/acdlite/redux-router) &nbsp;&harr;&nbsp; [react-router (via RouterContext)](https://github.com/reactjs/react-router)
+[redux](https://github.com/reactjs/redux) (`store.router`) &nbsp;&harr;&nbsp; [**redux-router**](https://github.com/acdlite/redux-router) &nbsp;&harr;&nbsp; [react-router (via RouterContext)](https://github.com/reactjs/react-router)
 
 This approach, also has its set of limitations:
   1. The router data is not all serializable (because Components and functions are not direclty serializable) and therefore this can cause issues with some devTools extensions and libraries that help in saving the store to the browser session. This can be mitigated if the libraries offer ways to ignore seriliazing parts of the store but is not always possible.
@@ -140,26 +140,48 @@ A reducer that keeps track of Router state.
 
 A component that renders a React Router app using router state from a Redux store.
 
-### `pushState(state, pathname, query)`
+### `push(location)`
 
-An action creator for `history.pushState()`. (https://developer.mozilla.org/en-US/docs/Web/API/History/pushState)
+An action creator for `history.push()`. [mjackson/history/docs/GettingStarted.md#navigation](https://github.com/mjackson/history/blob/master/docs/GettingStarted.md#navigation)
 
-Basic example (let say we are at `http://example.com/order/new`):
+Basic example (let say we are at `http://example.com/orders/new`):
 ```js
-dispatch(pushState(null, '/orders/' + order.id.toString(), ''))
+dispatch(push('/orders/' + order.id));
 ```
-Provided that `order.id` is set and equals `123` it will change browser address bar to `http://example.com/order/123` and appends this URL to the browser history (without reloading the page).
+Provided that `order.id` is set and equals `123` it will change browser address bar to `http://example.com/orders/123` and appends this URL to the browser history (without reloading the page).
 
-**NOTE:** clicking back button will change address bar back to `http://example.com/order/new` but will **not** change page content
-**NOTE:** `pathname` has to be a string, numbers will generate an exception
+A bit more advanced example:
+```js
+dispatch(push({
+  pathName: '/orders',
+  query: { filter: 'shipping' }
+}));
+```
+This will change the browser address bar to `http://example.com/orders?filter=shipping`.
 
-### `replaceState(state, pathname, query)`
+**NOTE:** clicking back button will change address bar back to `http://example.com/orders/new` but will **not** change page content
 
-An action creator for `history.replaceState()`. (https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_replaceState()_method)
+### `replace(location)`
 
-Works similar to the `pushState` except that it doesn't create new browser history entry.
+An action creator for `history.replace()`. [mjackson/history/docs/GettingStarted.md#navigation](https://github.com/mjackson/history/blob/master/docs/GettingStarted.md#navigation)
 
-Referring to the `pushState` example: clicking back button will change address bar back to the URL before `http://example.com/order/new` and will change page content.
+Works similar to the `push` except that it doesn't create new browser history entry.
+
+**NOTE:** Referring to the `push` example: clicking back button will change address bar back to the URL before `http://example.com/orders/new` and will change page content.
+
+### `go(n)` `goBack()` `goForward()`
+
+```js
+// Go back to the previous entry in browser history.
+// These lines are synonymous.
+history.go(-1);
+history.goBack();
+
+// Go forward to the next entry in browser history.
+// These lines are synonymous.
+history.go(1);
+history.goForward();
+```
 
 ## Handling authentication via a higher order component
 
@@ -172,7 +194,7 @@ This library pairs well with [redux-rx](https://github.com/acdlite/redux-rx) to 
 ```js
 const LoginPage = createConnector(props$, state$, dispatch$, () => {
   const actionCreators$ = bindActionCreators(actionCreators, dispatch$);
-  const pushState$ = actionCreators$.map(ac => ac.pushState);
+  const push$ = actionCreators$.map(ac => ac.push);
 
   // Detect logins
   const didLogin$ = state$
@@ -182,9 +204,9 @@ const LoginPage = createConnector(props$, state$, dispatch$, () => {
   // Redirect on login!
   const redirect$ = didLogin$
     .withLatestFrom(
-      pushState$,
+      push$,
       // Use query parameter as redirect path
-      (state, pushState) => () => pushState(null, state.router.query.redirect || '/')
+      (state, push) => () => push(state.router.query.redirect || '/')
     )
     .do(go => go());
 

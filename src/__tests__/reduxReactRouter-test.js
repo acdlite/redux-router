@@ -1,8 +1,8 @@
 import {
   reduxReactRouter,
   routerStateReducer,
-  pushState,
-  replaceState,
+  push,
+  replace,
   isActive
 } from '../';
 import { REPLACE_ROUTES } from '../constants';
@@ -28,23 +28,24 @@ describe('reduxRouter()', () => {
       router: routerStateReducer
     });
 
-    const history = createHistory();
-
     const store = reduxReactRouter({
-      history,
+      createHistory,
       routes
     })(createStore)(reducer);
+
+    const history = store.history;
 
     const historySpy = sinon.spy();
     history.listen(() => historySpy());
 
     expect(historySpy.callCount).to.equal(1);
 
-    history.pushState(null, '/parent');
+
+    store.dispatch(push({ pathname: '/parent' }));
     expect(store.getState().router.location.pathname).to.equal('/parent');
     expect(historySpy.callCount).to.equal(2);
 
-    history.pushState(null, '/parent/child/123?key=value');
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
     expect(historySpy.callCount).to.equal(3);
     expect(store.getState().router.location.pathname)
       .to.equal('/parent/child/123');
@@ -116,13 +117,13 @@ describe('reduxRouter()', () => {
       routes
     })(createStore)(reducer);
 
-    store.dispatch(pushState(null, '/parent/child/123', { key: 'value' }));
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
     expect(store.getState().router.location.pathname)
       .to.equal('/parent/child/123');
     expect(store.getState().router.location.query).to.eql({ key: 'value' });
     expect(store.getState().router.params).to.eql({ id: '123' });
 
-    store.dispatch(replaceState(null, '/parent/child/321', { key: 'value2'}));
+    store.dispatch(replace({ pathname: '/parent/child/321', query: { key: 'value2'} }));
     expect(store.getState().router.location.pathname)
       .to.equal('/parent/child/321');
     expect(store.getState().router.location.query).to.eql({ key: 'value2' });
@@ -173,7 +174,7 @@ describe('reduxRouter()', () => {
       historyState = s;
     });
 
-    history.pushState(null, '/parent');
+    store.dispatch(push({ pathname: '/parent' }));
 
     store.dispatch({
       type: REPLACE_ROUTES
@@ -206,7 +207,7 @@ describe('reduxRouter()', () => {
       )
     )(createStore)(reducer);
 
-    history.pushState(null, '/parent');
+    history.push({ pathname: '/parent' });
     expect(historySpy.callCount).to.equal(2);
 
     setTimeout(() => {
@@ -229,10 +230,10 @@ describe('reduxRouter()', () => {
       routes
     })(createStore)(reducer);
 
-    history.pushState(null, '/parent');
+    store.dispatch(push({ pathname: '/parent' }));
     expect(store.getState().router.location.pathname).to.eql('/parent');
 
-    history.pushState(null, '/parent/child/123?key=value');
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
     expect(store.getState().router.location.pathname)
       .to.eql('/parent/child/123');
     expect(store.getState().router.location.basename).to.eql('/grandparent');
@@ -257,7 +258,7 @@ describe('reduxRouter()', () => {
         }
       })(createStore)(reducer);
 
-      store.dispatch(pushState(null, '/parent/child/123', { key: 'value' }));
+      store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
       expect(store.getState().router.location.pathname)
         .to.equal('/parent/child/123');
     });
@@ -271,8 +272,8 @@ describe('reduxRouter()', () => {
 
       const history = createHistory();
 
-      const requireAuth = (nextState, _replaceState) => {
-        _replaceState(null, '/login');
+      const requireAuth = (nextState, replace) => {
+        replace({ pathname: '/login' });
       };
 
       const store = reduxReactRouter({
@@ -287,7 +288,7 @@ describe('reduxRouter()', () => {
         )
       })(createStore)(reducer);
 
-      store.dispatch(pushState(null, '/parent/child/123', { key: 'value' }));
+      store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
       expect(store.getState().router.location.pathname)
         .to.equal('/login');
     });
@@ -307,7 +308,7 @@ describe('reduxRouter()', () => {
 
         const activeSelector = isActive('/parent', { key: 'value' });
         expect(activeSelector(store.getState().router)).to.be.false;
-        history.pushState(null, '/parent?key=value');
+        store.dispatch(push({ pathname: '/parent', query: { key: 'value' } }));
         expect(activeSelector(store.getState().router)).to.be.true;
       });
     });

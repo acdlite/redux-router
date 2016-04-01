@@ -6,7 +6,7 @@ import {
   ReduxRouter,
   routerStateReducer,
   reduxReactRouter,
-  pushState,
+  push,
 } from 'redux-router';
 
 import { Route, Link } from 'react-router';
@@ -30,18 +30,19 @@ class App extends Component {
     event.preventDefault();
     const { dispatch } = this.props;
 
-    dispatch(pushState(null, '/parent/child/custom'));
+    dispatch(push({ pathname: '/parent/child/custom' }));
   }
 
   render() {
+    // Display is only used for rendering, its not a property of <Link>
     const links = [
-      '/',
-      '/parent?foo=bar',
-      '/parent/child?bar=baz',
-      '/parent/child/123?baz=foo'
+        { pathname: '/', display: '/'},
+        { pathname: '/parent', query: { foo: 'bar' }, display: '/parent?foo=bar'},
+        { pathname: '/parent/child', query: { bar: 'baz' }, display: '/parent/child?bar=baz'},
+        { pathname: '/parent/child/123', query: { baz: 'foo' }, display: '/parent/child/123?baz=foo'}
     ].map((l, i) =>
       <p key={i}>
-        <Link to={l}>{l}</Link>
+        <Link to={l}>{l.display}</Link>
       </p>
     );
 
