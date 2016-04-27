@@ -25,7 +25,7 @@ export default function reduxReactRouter({
 
     const history = createAppHistory({
       parseQueryString,
-      stringifyQueryString: stringifyQuery,
+      stringifyQuery,
     });
 
     const transitionManager = createTransitionManager(
