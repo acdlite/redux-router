@@ -160,7 +160,7 @@ Provided that `order.id` is set and equals `123` it will change browser address 
 A bit more advanced example:
 ```js
 dispatch(push({
-  pathName: '/orders',
+  pathname: '/orders',
   query: { filter: 'shipping' }
 }));
 ```
