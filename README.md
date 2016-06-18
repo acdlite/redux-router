@@ -22,11 +22,12 @@ redux-router
 - Works with time travel feature of Redux Devtools!
 
 ```sh
-npm install --save redux-router@1.0.0-beta8
+# installs version 2.x.x
+npm install --save redux-router
 ```
-Install the v2 beta via the `beta` tag
+Install the version 1.0.0 via the `previous` tag
 ```sh
-npm install --save redux-router@beta
+npm install --save redux-router@previous
 ```
 
 
