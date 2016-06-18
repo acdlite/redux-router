@@ -20,7 +20,7 @@ redux-router
 - Works with time travel feature of Redux Devtools!
 
 ```sh
-npm install --save redux-router@1.0.0-beta8
+npm install --save redux-router@1.0.0
 ```
 
 ## Why
