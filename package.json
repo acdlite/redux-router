@@ -1,6 +1,6 @@
 {
   "name": "redux-router",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Redux bindings for React Router — keep your router state inside your Redux Store.",
   "main": "lib/index.js",
   "scripts": {
@@ -27,12 +27,11 @@
   "author": "Andrew Clark <acdlite@me.com>",
   "license": "MIT",
   "files": [
-	  "dist",
-	  "lib",
-	  "src",
-	  "LICENSE",
-	  "*.md"
-
+    "dist",
+    "lib",
+    "src",
+    "LICENSE",
+    "*.md"
   ],
   "devDependencies": {
     "babel": "^5.6.14",
