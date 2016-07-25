@@ -1,6 +1,5 @@
 import { applyMiddleware } from 'redux';
 import { useRouterHistory, createRoutes } from 'react-router';
-import { hashHistory } from 'react-router'
 import createTransitionManager from 'react-router/lib/createTransitionManager' ;
 import historyMiddleware from './historyMiddleware';
 import { ROUTER_STATE_SELECTOR } from './constants';
@@ -29,7 +28,7 @@ export default function reduxReactRouter({
     });
 
     const transitionManager = createTransitionManager(
-        history, createRoutes(routes || children)
+        history, createRoutes(routes)
     );
 
     const store =

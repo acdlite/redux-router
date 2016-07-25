@@ -91,7 +91,7 @@ class ReduxRouter extends Component {
 class ReduxRouterContext extends Component {
   static propTypes = {
     location: PropTypes.object,
-    RoutingContext: PropTypes.instanceOf(Component)
+    RoutingContext: PropTypes.func
   }
 
   render() {
