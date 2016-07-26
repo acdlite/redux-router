@@ -149,7 +149,7 @@ describe('<ReduxRouter>', () => {
 
     store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
 
-    let consoleErrorSpy = sinon.spy(console, 'error');
+    const consoleErrorSpy = sinon.spy(console, 'error');
 
     renderIntoDocument(
       <Provider store={store}>
@@ -159,7 +159,24 @@ describe('<ReduxRouter>', () => {
       </Provider>
     );
 
+    console.error.restore(); // eslint-disable-line no-console
+
     expect(consoleErrorSpy.called).to.be.false;
+  });
+
+  it('should accept stateless React components for "RoutingContext" prop of ReduxRouter', () => {
+    const reducer = combineReducers({
+      router: routerStateReducer
+    });
+
+    const history = createHistory();
+    const store = reduxReactRouter({
+      history
+    })(createStore)(reducer);
+
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
+
+    const consoleErrorSpy = sinon.spy(console, 'error');
 
     renderIntoDocument(
       <Provider store={store}>
@@ -169,9 +186,22 @@ describe('<ReduxRouter>', () => {
       </Provider>
     );
 
-    expect(consoleErrorSpy.called).to.be.false;
-
     console.error.restore(); // eslint-disable-line no-console
+
+    expect(consoleErrorSpy.called).to.be.false;
+  });
+
+  it('should not accept non-React-components for "RoutingContext" prop of ReduxRouter', () => {
+    const reducer = combineReducers({
+      router: routerStateReducer
+    });
+
+    const history = createHistory();
+    const store = reduxReactRouter({
+      history
+    })(createStore)(reducer);
+
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
 
     class CustomRouterContext extends React.Component {
       render(props) {
@@ -179,32 +209,34 @@ describe('<ReduxRouter>', () => {
       }
     }
 
-    consoleErrorSpy = sinon.spy(console, 'error');
+    const consoleErrorSpy = sinon.spy(console, 'error');
 
-    expect(() => renderIntoDocument(
+    const render = () => renderIntoDocument(
       <Provider store={store}>
         <ReduxRouter RoutingContext={new CustomRouterContext({})}>
           {routes}
         </ReduxRouter>
       </Provider>
-    ))
-    .to.throw('Element type is invalid: expected a string (for built-in components) ' +
+    );
+
+    const invalidElementTypeErrorMessage = 'Element type is invalid: expected a string (for built-in components) ' +
       'or a class/function (for composite components) but got: object. ' +
-      'Check the render method of `ReduxRouterContext`.');
+      'Check the render method of `ReduxRouterContext`.';
+
+    const routingContextInvalidPropErrorMessage = 'Invalid prop `RoutingContext` of type `object` supplied to `ReduxRouterContext`';
+
+    const routingContextInvalidElementTypeErrorMessage = 'React.createElement: type should not be null, undefined, boolean, or number. ' +
+      'It should be a string (for DOM elements) or a ReactClass (for composite components). ' +
+      'Check the render method of `ReduxRouterContext`.';
+
+    expect(render).to.throw(invalidElementTypeErrorMessage);
+
+    console.error.restore(); // eslint-disable-line no-console
 
     expect(consoleErrorSpy.calledTwice).to.be.true;
 
-    expect(consoleErrorSpy.args[0][0]).to.contain(
-      'Invalid prop `RoutingContext` of type `object` supplied to `ReduxRouterContext`'
-    );
-
-    expect(consoleErrorSpy.args[1][0]).to.contain(
-      'React.createElement: type should not be null, undefined, boolean, or number. ' +
-      'It should be a string (for DOM elements) or a ReactClass (for composite components). ' +
-      'Check the render method of `ReduxRouterContext`.'
-    );
-
-    console.error.restore(); // eslint-disable-line no-console
+    expect(consoleErrorSpy.args[0][0]).to.contain(routingContextInvalidPropErrorMessage);
+    expect(consoleErrorSpy.args[1][0]).to.contain(routingContextInvalidElementTypeErrorMessage);
   });
 
   // <Link> does stuff inside `onClick` that makes it difficult to test.
