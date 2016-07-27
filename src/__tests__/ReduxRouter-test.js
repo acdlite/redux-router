@@ -204,8 +204,8 @@ describe('<ReduxRouter>', () => {
     store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
 
     class CustomRouterContext extends React.Component {
-      render(props) {
-        return <RouterContext {...props}/>;
+      render() {
+        return <RouterContext {...this.props}/>;
       }
     }
 
