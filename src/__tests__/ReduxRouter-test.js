@@ -18,7 +18,7 @@ import {
 import { Provider, connect } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import createHistory from 'history/lib/createMemoryHistory';
-import { Link, Route } from 'react-router';
+import { Link, Route, RouterContext } from 'react-router';
 import jsdom from 'mocha-jsdom';
 import sinon from 'sinon';
 
@@ -48,7 +48,7 @@ class Parent extends Component {
   render() {
     return (
       <div>
-        <Link to={{ pathname: "/parent/child/321", query: { key: 'value' }}} />
+        <Link to={{ pathname: '/parent/child/321', query: { key: 'value' }}} />
         {this.props.children}
       </div>
     );
@@ -135,6 +135,108 @@ describe('<ReduxRouter>', () => {
     );
 
     expect(historySpy.callCount).to.equal(1);
+  });
+
+  it('should accept React.Components for "RoutingContext" prop of ReduxRouter', () => {
+    const reducer = combineReducers({
+      router: routerStateReducer
+    });
+
+    const history = createHistory();
+    const store = reduxReactRouter({
+      history
+    })(createStore)(reducer);
+
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
+
+    const consoleErrorSpy = sinon.spy(console, 'error');
+
+    renderIntoDocument(
+      <Provider store={store}>
+        <ReduxRouter RoutingContext={RouterContext}>
+          {routes}
+        </ReduxRouter>
+      </Provider>
+    );
+
+    console.error.restore(); // eslint-disable-line no-console
+
+    expect(consoleErrorSpy.called).to.be.false;
+  });
+
+  it('should accept stateless React components for "RoutingContext" prop of ReduxRouter', () => {
+    const reducer = combineReducers({
+      router: routerStateReducer
+    });
+
+    const history = createHistory();
+    const store = reduxReactRouter({
+      history
+    })(createStore)(reducer);
+
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
+
+    const consoleErrorSpy = sinon.spy(console, 'error');
+
+    renderIntoDocument(
+      <Provider store={store}>
+        <ReduxRouter RoutingContext={(props) => <RouterContext {...props}/>}>
+          {routes}
+        </ReduxRouter>
+      </Provider>
+    );
+
+    console.error.restore(); // eslint-disable-line no-console
+
+    expect(consoleErrorSpy.called).to.be.false;
+  });
+
+  it('should not accept non-React-components for "RoutingContext" prop of ReduxRouter', () => {
+    const reducer = combineReducers({
+      router: routerStateReducer
+    });
+
+    const history = createHistory();
+    const store = reduxReactRouter({
+      history
+    })(createStore)(reducer);
+
+    store.dispatch(push({ pathname: '/parent/child/123', query: { key: 'value' } }));
+
+    class CustomRouterContext extends React.Component {
+      render() {
+        return <RouterContext {...this.props}/>;
+      }
+    }
+
+    const consoleErrorSpy = sinon.spy(console, 'error');
+
+    const render = () => renderIntoDocument(
+      <Provider store={store}>
+        <ReduxRouter RoutingContext={new CustomRouterContext({})}>
+          {routes}
+        </ReduxRouter>
+      </Provider>
+    );
+
+    const invalidElementTypeErrorMessage = 'Element type is invalid: expected a string (for built-in components) ' +
+      'or a class/function (for composite components) but got: object. ' +
+      'Check the render method of `ReduxRouterContext`.';
+
+    const routingContextInvalidPropErrorMessage = 'Invalid prop `RoutingContext` of type `object` supplied to `ReduxRouterContext`';
+
+    const routingContextInvalidElementTypeErrorMessage = 'React.createElement: type should not be null, undefined, boolean, or number. ' +
+      'It should be a string (for DOM elements) or a ReactClass (for composite components). ' +
+      'Check the render method of `ReduxRouterContext`.';
+
+    expect(render).to.throw(invalidElementTypeErrorMessage);
+
+    console.error.restore(); // eslint-disable-line no-console
+
+    expect(consoleErrorSpy.calledTwice).to.be.true;
+
+    expect(consoleErrorSpy.args[0][0]).to.contain(routingContextInvalidPropErrorMessage);
+    expect(consoleErrorSpy.args[1][0]).to.contain(routingContextInvalidElementTypeErrorMessage);
   });
 
   // <Link> does stuff inside `onClick` that makes it difficult to test.

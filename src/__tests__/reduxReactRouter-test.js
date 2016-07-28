@@ -272,8 +272,8 @@ describe('reduxRouter()', () => {
 
       const history = createHistory();
 
-      const requireAuth = (nextState, replace) => {
-        replace({ pathname: '/login' });
+      const requireAuth = (nextState, redirect) => {
+        redirect({ pathname: '/login' });
       };
 
       const store = reduxReactRouter({
