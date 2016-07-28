@@ -253,6 +253,26 @@ describe('<ReduxRouter>', () => {
     expect(child.props.location.pathname).to.equal('/parent/child/321');
   });
 
+  it('provides access to `getState` in transition hooks', () => {
+    function createRouteWithTransitionHooks() {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      const history = createHistory();
+      const getRoutes = ({ getState }) => {
+        return (<Route path="/" component={App} onEnter={getState} />);
+      }
+
+      const store = reduxReactRouter({
+        getRoutes, history
+      })(createStore)(reducer);
+    }
+
+    expect(createRouteWithTransitionHooks).to.not.throw(Error);
+  });
+
+
   describe('server-side rendering', () => {
     it('works', () => {
       const reducer = combineReducers({
