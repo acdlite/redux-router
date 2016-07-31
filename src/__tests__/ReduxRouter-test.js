@@ -223,8 +223,6 @@ describe('<ReduxRouter>', () => {
       'or a class/function (for composite components) but got: object. ' +
       'Check the render method of `ReduxRouterContext`.';
 
-    const routingContextInvalidPropErrorMessage = 'Invalid prop `RoutingContext` of type `object` supplied to `ReduxRouterContext`';
-
     const routingContextInvalidElementTypeErrorMessage = 'React.createElement: type should not be null, undefined, boolean, or number. ' +
       'It should be a string (for DOM elements) or a ReactClass (for composite components). ' +
       'Check the render method of `ReduxRouterContext`.';
@@ -235,7 +233,6 @@ describe('<ReduxRouter>', () => {
 
     expect(consoleErrorSpy.calledTwice).to.be.true;
 
-    expect(consoleErrorSpy.args[0][0]).to.contain(routingContextInvalidPropErrorMessage);
     expect(consoleErrorSpy.args[1][0]).to.contain(routingContextInvalidElementTypeErrorMessage);
   });
 
