@@ -111,7 +111,7 @@ The README for react-router-redux has a useful picture included here:
 
 This approach, while simple to use, comes with a few caveats:
   1. The history location object does not include React Router params and they must be either passed down from a React Router component or recomputed.
-  2. It is discouraged (and dangerous) to connect the store data to a component because the store data potentially updates **after** the React Router properties have changed, therefore there can be race conditions where the location store data differs from the location object passed down via React Router to components.
+  2. It is discouraged (and dangerous) to connect the store data to a component because the store data updates via `history.listen()` which means **before** the React Router properties have changed (e.g. when using async routes for code splitting or `onEnter` hooks with callbacks), therefore there can be race conditions where the location store data differs from the location object passed down via React Router to components. `redux-router` avoids this race condition by using `react-router`'s internal `transitionManager.listen()` instead of `history.listen()`.
 
 react-router-redux encourages users to use props directly from React Router in the components (they are passed down to any rendered route components). This means that if you want to access the location data far down the component tree, you may need to pass it down or use React's context feature.
 
