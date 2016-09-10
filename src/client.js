@@ -47,6 +47,6 @@ function historySynchronization(next) {
 
 export default compose(
   useDefaults,
-  routeReplacement,
-  historySynchronization
+  historySynchronization,
+  routeReplacement
 )(reduxReactRouter);
