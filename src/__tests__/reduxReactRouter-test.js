@@ -293,6 +293,36 @@ describe('reduxRouter()', () => {
         .to.equal('/login');
     });
 
+    it('can perform redirects with query string', () => {
+      const reducer = combineReducers({
+        router: routerStateReducer
+      });
+
+      const history = createHistory();
+
+      const requireAuth = (nextState, redirect) => {
+        redirect({ pathname: '/login', query: { key: 'value' } });
+      };
+
+      const store = reduxReactRouter({
+        history,
+        routes: (
+          <Route path="/">
+            <Route path="parent">
+              <Route path="child/:id" onEnter={requireAuth}/>
+            </Route>
+            <Route path="login" />
+          </Route>
+        )
+      })(createStore)(reducer);
+
+      store.dispatch(push({ pathname: '/parent/child/123' }));
+      expect(store.getState().router.location.pathname)
+        .to.equal('/login');
+      expect(store.getState().router.location.query.key)
+        .to.equal('value');
+    });
+
     describe('isActive', () => {
       it('creates a selector for whether a pathname/query pair is active', () => {
         const reducer = combineReducers({
