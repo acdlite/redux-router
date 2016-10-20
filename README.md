@@ -124,7 +124,7 @@ The picture of redux-router would look more like this:
 [redux](https://github.com/reactjs/redux) (`store.router`) &nbsp;&harr;&nbsp; [**redux-router**](https://github.com/acdlite/redux-router) &nbsp;&harr;&nbsp; [react-router (via RouterContext)](https://github.com/reactjs/react-router)
 
 This approach, also has its set of limitations:
-  1. The router data is not all serializable (because Components and functions are not direclty serializable) and therefore this can cause issues with some devTools extensions and libraries that help in saving the store to the browser session. This can be mitigated if the libraries offer ways to ignore seriliazing parts of the store but is not always possible.
+  1. The router data is not all serializable (because Components and functions are not directly serializable) and therefore this can cause issues with some devTools extensions and libraries that help in saving the store to the browser session. This can be mitigated if the libraries offer ways to ignore serializing parts of the store but is not always possible.
   2. redux-router takes advantage of the RouterContext to still use much of React Router's internal logic. However, redux-router must still implement many things that React Router already does on its own and can cause delays in upgrade paths.
   3. redux-router must provide a slightly different top level API (due to 2) even if the Route logic/matching is identical
 
