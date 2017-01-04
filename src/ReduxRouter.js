@@ -34,7 +34,7 @@ class ReduxRouter extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.router = createRouterObject(context.store.history, context.store.transitionManager);
+    this.router = createRouterObject(context.store.history, context.store.transitionManager, {});
   }
 
   componentWillMount() {
