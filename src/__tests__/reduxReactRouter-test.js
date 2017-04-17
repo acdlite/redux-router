@@ -68,6 +68,14 @@ describe('reduxRouter()', () => {
       }
     };
 
+    const externalState2 = {
+      location: {
+        pathname: '/parent/child/123',
+        query: { key: 'value2' },
+        key: 'lolkey'
+      }
+    };
+
     const reducerSpy = sinon.spy();
     function reducer(state, action) {
       reducerSpy();
@@ -105,6 +113,15 @@ describe('reduxRouter()', () => {
     expect(historySpy.callCount).to.equal(2);
     expect(historyState.pathname).to.equal('/parent/child/123');
     expect(historyState.search).to.equal('?key=value');
+
+    store.dispatch({
+      type: EXTERNAL_STATE_CHANGE,
+      payload: externalState2
+    });
+
+    expect(historyState.pathname).to.equal('/parent/child/123');
+    expect(historyState.search).to.equal('?key=value2');
+    expect(reducerSpy.callCount).to.equal(6);
   });
 
   it('works with navigation action creators', () => {
