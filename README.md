@@ -89,6 +89,59 @@ connect(
   { push }
 )(SearchBox);
 ```
+### Server Example
+```js
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
+import { ReduxRouter, routerStateReducer } from 'redux-router'
+import { reduxReactRouter, match } from 'redux-router/server'
+import routes from './routes'
+
+import { createStore, compose, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
+
+import reducer1 from './reducers/reducer1'
+
+function index(innerHtml, initialState) {
+  return `<html>
+  <head><title>Title</title></head>
+  <body>
+    <div id="container">${innerHtml}</div>
+    <script>window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};</script>
+    <script src="app.js"></script>
+  </body>
+</html>
+`
+}
+
+expressServer.use(function(req, res, next) {
+  const reducer = combineReducers({
+    router: routerStateReducer,
+    reducer1
+  })
+  const store = compose(
+    reduxReactRouter({ routes })
+  )(createStore)(reducer)
+  // Use redux-router match function and dispatch the result.
+  // If migrating from react-router make sure you are using redux-router match
+  store.dispatch(match(req.url, (error, redirectLocation, renderProps) => {
+    if (!error && !redirectLocation && renderProps) {
+      // Use ReduxRouter rather than RouterContext if migrating from react-router
+      var app = <Provider store={store}><ReduxRouter {...renderProps} /></Provider>
+      try {
+        var html = ReactDOMServer.renderToString(app)
+        var result = index(html, store.getState())
+        res.status(200).send(result)
+      } catch (e) {
+        console.log('Failed to render', e)
+        next()
+      }
+    } else {
+      next()
+    }
+  }))
+})
+```
 
 You will find a **server-rendering** example in the repo´s example directory.
 
