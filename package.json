@@ -49,11 +49,11 @@
     "mocha": "^2.2.5",
     "mocha-jsdom": "^1.0.0",
     "node-libs-browser": "^0.5.2",
-    "react": "^0.14.1",
+    "react": "^16.0.0",
     "react-addons-test-utils": "^0.14.1",
-    "react-dom": "^0.14.1",
+    "react-dom": "^16.0.0",
     "react-redux": "^4.0.0",
-    "react-router": "^2.0.0",
+    "react-router": "github:sigfox/react-router#v2.8.1-react-16-build",
     "react-transform-hmr": "^1.0.1",
     "redux": "^3.0.0",
     "redux-devtools": "^2.1.0",
@@ -63,6 +63,7 @@
     "webpack": "^1.12.1"
   },
   "dependencies": {
-    "deep-equal": "^1.0.1"
+    "deep-equal": "^1.0.1",
+    "prop-types": "^15.6.0"
   }
 }
