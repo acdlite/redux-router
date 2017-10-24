@@ -7,7 +7,8 @@ import {
 
 import * as server from '../server';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { renderToString } from 'react-dom/server';
 import {
   renderIntoDocument,

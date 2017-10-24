@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { RouterContext as DefaultRoutingContext } from 'react-router';
 import { createRouterObject } from 'react-router/lib/RouterUtils';
