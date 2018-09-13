@@ -19,7 +19,7 @@ import {
 import { Provider, connect } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import createHistory from 'history/lib/createMemoryHistory';
-import { Link, Route, RouterContext } from 'react-router';
+import { Link, Route, RouterContext } from '@sigfox/react-router';
 import jsdom from 'mocha-jsdom';
 import sinon from 'sinon';
 

@@ -1,4 +1,4 @@
-import _isActive from 'react-router/lib/isActive';
+import _isActive from '@sigfox/react-router/lib/isActive';
 
 /**
  * Creates a router state selector that returns whether or not the given

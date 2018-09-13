@@ -1,5 +1,5 @@
 {
-  "name": "redux-router",
+  "name": "@sigfox/redux-router",
   "version": "2.1.2",
   "description": "Redux bindings for React Router — keep your router state inside your Redux Store.",
   "main": "lib/index.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/acdlite/redux-router.git"
+    "url": "git://github.com/sigfox/redux-router.git"
   },
   "keywords": [
     "redux",
@@ -47,13 +47,13 @@
     "history": "^2.0.0",
     "jsdom": "^5.6.0",
     "mocha": "^2.2.5",
-    "mocha-jsdom": "^1.0.0",
+    "mocha-jsdom": "~1.0.0",
     "node-libs-browser": "^0.5.2",
     "react": "^16.0.0",
     "react-addons-test-utils": "^0.14.1",
     "react-dom": "^16.0.0",
     "react-redux": "^4.0.0",
-    "react-router": "github:sigfox/react-router#v2.8.1-react-16-build",
+    "@sigfox/react-router": "^2.8.4",
     "react-transform-hmr": "^1.0.1",
     "redux": "^3.0.0",
     "redux-devtools": "^2.1.0",

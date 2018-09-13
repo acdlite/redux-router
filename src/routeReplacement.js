@@ -1,5 +1,5 @@
 import { applyMiddleware, compose } from 'redux';
-import { createRoutes } from 'react-router';
+import { createRoutes } from '@sigfox/react-router';
 import replaceRoutesMiddleware from './replaceRoutesMiddleware';
 
 export default function routeReplacement(next) {

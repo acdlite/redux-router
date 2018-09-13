@@ -9,7 +9,7 @@ import { REPLACE_ROUTES } from '../constants';
 
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import React from 'react';
-import { Route } from 'react-router';
+import { Route } from '@sigfox/react-router';
 import createHistory from 'history/lib/createMemoryHistory';
 import useBasename from 'history/lib/useBasename';
 import sinon from 'sinon';

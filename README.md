@@ -1,9 +1,11 @@
 redux-router
 ============
 
-[![build status](https://img.shields.io/travis/acdlite/redux-router/master.svg?style=flat-square)](https://travis-ci.org/acdlite/redux-router)
-[![npm version](https://img.shields.io/npm/v/redux-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-router)
-[![redux-router on discord](https://img.shields.io/badge/discord-redux--router@reactiflux-738bd7.svg?style=flat-square)](https://discord.gg/0ZcbPKXt5bVkq8Eo)
+# This is a fork of Redux Router v2.1.2, compatible with react 16, and using @sigfox/react-router
+
+    $ npm install @sigfox/redux-router
+
+All credits go to the origial creators, we just patched it to support React 16.
 
 ## This project is experimental.
 

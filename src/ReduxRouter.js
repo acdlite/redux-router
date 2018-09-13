@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { RouterContext as DefaultRoutingContext } from 'react-router';
-import { createRouterObject } from 'react-router/lib/RouterUtils';
+import { RouterContext as DefaultRoutingContext } from '@sigfox/react-router';
+import { createRouterObject } from '@sigfox/react-router/lib/RouterUtils';
 import routerStateEquals from './routerStateEquals';
 import { ROUTER_STATE_SELECTOR } from './constants';
 import { initRoutes, replaceRoutes } from './actionCreators';
