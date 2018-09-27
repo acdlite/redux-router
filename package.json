@@ -53,7 +53,7 @@
     "react-addons-test-utils": "^0.14.1",
     "react-dom": "^16.0.0",
     "react-redux": "^4.0.0",
-    "@sigfox/react-router": "^2.8.4",
+    "@sigfox/react-router": "^2.8.5",
     "react-transform-hmr": "^1.0.1",
     "redux": "^3.0.0",
     "redux-devtools": "^2.1.0",
@@ -65,5 +65,8 @@
   "dependencies": {
     "deep-equal": "^1.0.1",
     "prop-types": "^15.6.0"
+  },
+  "peerDependencies": {
+    "@sigfox/react-router": "^2.8.5"
   }
 }
